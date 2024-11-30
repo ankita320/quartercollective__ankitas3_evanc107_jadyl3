@@ -1,2 +1,7 @@
-Quarter Collective
-Ankita Saha, Evan Chan, Jady Lei
+**Ankita Saha, Evan Chan, and Jady Lei** 
+
+**Software Development**
+
+**Quarter Collective**
+
+**Nov 30 2024**
