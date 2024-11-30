@@ -4,4 +4,4 @@
 
 **Quarter Collective**
 
-**Nov 30 2024**
+**Nov 30, 2024**
