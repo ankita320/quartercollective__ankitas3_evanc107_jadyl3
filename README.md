@@ -1,1 +1,2 @@
-# quartercollective__ankitas3_evanc107_jadyl3
+Quarter Collective
+Ankita Saha, Evan Chan, Jady Lei
