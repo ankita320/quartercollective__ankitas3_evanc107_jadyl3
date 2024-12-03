@@ -7,3 +7,5 @@ ankitaS -- 2024-12-2
 evanC -- 2024-12-2
 
 jadyL -- 2024-12-2
+- update design doc
+- start user database
