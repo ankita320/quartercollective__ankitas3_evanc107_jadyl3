@@ -1,15 +1,17 @@
 
-ankitaS -- 2024-12-2
+ankitaS -- 2024-12-2 20:39
 - Added project overview to clarify the connection between our feature & our vision
 - added desription and usage purposes of our FEF (Bootstrap)
 - revised parts of project components to be more specific and clarify
 
-evanC -- 2024-12-2
-
-jadyL -- 2024-12-2
+jadyL -- 2024-12-2 22:43
 - update design doc
 - start user database
 
-ankitaS -- 2024-12-3
+ankitaS -- 2024-12-3 10:59
 - retrieved API key for NYT
 - updated key folder with it
+
+evanC -- 2024-12-3 11:01
+- created API key for Merriam-Webster
+- made description for Merriam-Webster API in api/readme
