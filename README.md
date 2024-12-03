@@ -6,7 +6,7 @@
 
 #### Evan Chan - Favorites/User Dashboard Page Developer
 
-#### Jady Lei - Home & CSS Developer
+#### Jady Lei - Database & CSS Developer
 
 ## Project Description
 
