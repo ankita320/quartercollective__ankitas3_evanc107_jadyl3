@@ -14,3 +14,7 @@ ankitaS -- 2024-12-3 10:59
 evanC -- 2024-12-3 11:01
 - created API key for Merriam-Webster
 - made description for Merriam-Webster API in api/readme
+
+jadyL -- 2024-12-3 11:02
+- create api key for OpenWeatherMap
+- description in keys/readme
