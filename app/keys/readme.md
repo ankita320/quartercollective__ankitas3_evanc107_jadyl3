@@ -10,4 +10,4 @@
 **API List and Description**
 
 
-Dictionary API split into two keys,<code>key_dictionary.txt</code> for the full collegiate dictionary and <code>key_elementarydict.txt</code> for the elementary version
+Dictionary API split into two keys,<code>key_merriam_webster.txt</code> for the full collegiate dictionary and <code>key_merriam_webster_e.txt</code> for the elementary version
