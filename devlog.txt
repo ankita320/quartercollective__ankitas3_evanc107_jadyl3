@@ -9,3 +9,7 @@ evanC -- 2024-12-2
 jadyL -- 2024-12-2
 - update design doc
 - start user database
+
+ankitaS -- 2024-12-3
+- retrieved API key for NYT
+- updated key folder with it
