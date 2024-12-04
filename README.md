@@ -16,7 +16,7 @@ Our website will essentially be a weather news site similar to “The Stuyvesant
 ## Install Guide:
   To install, go to the top of the page and click the green button that says "Code". In the dropdown that appears, click "Download Zip" at the bottom. Extract the zip from your downloads into your home directory. <br>
 
-OR
+**OR**
   
   To clone the repository, go to the top of the page and click the green button that says "Code". In the dropdown that appears, choose either "HTTPS" or "SSH" under the "Clone" section and copy the provided URL. Open up your computer's terminal and type "git clone {URL HERE}"
 
