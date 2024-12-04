@@ -22,7 +22,7 @@ OR
 
   
 # Launch Codes:
-  Instructions:
+  **Instructions:**
   1. Make a python virtual environment
 
       a. Open up your device's terminal
@@ -31,13 +31,13 @@ OR
 
       c. Type in one of the commands into your terminal for your specific OS to activate the environment
 
-      - Linux: ```$ . {path name}/bin/activate```
+        i. Linux: ```$ . {path name}/bin/activate```
     
-      - Windows Command Prompt: ```> {path name}\Scripts\activate```
+        ii. Windows Command Prompt: ```> {path name}\Scripts\activate```
 
-      - Windows PowerShell: ```> . .\{path name}\Scripts\activate```
+        iii. Windows PowerShell: ```> . .\{path name}\Scripts\activate```
 
-      - MacOS: ```$ source {path name}/bin/activate```
+        iv. MacOS: ```$ source {path name}/bin/activate```
 
       (If successful, the command line should display the name of your virtual environment: ```({path name})$ ```)
 
@@ -49,7 +49,7 @@ OR
 
   5. Type ```$ pip install -r requirements.txt``` to install the required modules
 
- - If terminal returns ```zsh: command not found: pip```, type ```$ pip3 install -r requirements.txt``` because ```$ pip``` is for python2.
+     a. If terminal returns ```zsh: command not found: pip```, type ```$ pip3 install -r requirements.txt``` because ```$ pip``` is for python2.
 
   6. Type ```$ python3 app/app.py``` to run the application
 
