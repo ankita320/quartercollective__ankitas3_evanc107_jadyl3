@@ -28,14 +28,14 @@ evanC -- 2024-12-4 10:39
 - wireframed homepage for site
 
 ankitaS -- 2024-12-4 10:45
-- started adding api links/key to __init__.py 
+- started adding api links/key to __init__.py
 - formatted launch codes
 
-jadyL -- 2024-12-4 8:50
+jadyL -- 2024-12-4 20:50
 - fix up the functions
 - do some testing
 
-ankitaS -- 2024-12-4
+ankitaS -- 2024-12-4 22:11
 - finished adding restof APIs
 - started error try/catch statements
 
@@ -48,3 +48,14 @@ evanC -- 2024-12-5 00:13
 
 evanC -- 2024-12-5 00:15
 - small addition to requirements.txt (done for now)
+
+jadyL -- 2024-12-5 10:50
+- optimized api calls to minimize usage of quota
+- added return calls for the city of the user
+
+evanC -- 2024-12-5 10:51
+- login.html has form actions and submit buttons
+
+jadyL -- 2024-12-5 10:57
+- wrote webinfo functions
+- update code comments
