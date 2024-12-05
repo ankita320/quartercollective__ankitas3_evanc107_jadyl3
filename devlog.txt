@@ -19,10 +19,18 @@ jadyL -- 2024-12-3 11:02
 - create api key for OpenWeatherMap
 - description in keys/readme
 
-jadyL -- 2024-12-3 10:40
+jadyL -- 2024-12-4 10:40
 - continue work on userdb
 - wrote functions while misremembering update
 
-jadyL -- 2024-12-3 8:50
+evanC -- 2024-12-4 10:39
+- added launch codes and install guide
+- wireframed homepage for site
+
+ankitaS -- 2024-12-4 10:45
+- started adding api links/key to __init__.py 
+- formatted launch codes
+
+jadyL -- 2024-12-4 8:50
 - fix up the functions
 - do some testing
