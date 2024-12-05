@@ -9,7 +9,7 @@ import sqlite3
 import os
 
 # flask App
-app = Flask(__name__, template_folder = "../templates", static_folder = "../static")
+app = Flask(__name__, template_folder = "templates", static_folder = "../static")
 app.secret_key = os.urandom(32)
 
 @app.route("/")# checks for session and sends user to appropriate spot
@@ -45,54 +45,58 @@ def displayHome():
 @app.route("/logout")
 def removeSession():
     return redirect("/")
+# 
+# def NYT_api():
+#     file = open("keys/key_NYT.txt")
+#     key = file.read().strip()
+#     ##conditional for key
+#     url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=election&api-key={key}")
+#     json_d = url.read()
+#     info = json.loads(json_d.strip())
+#     txt = info["response"]["docs"]
+#     return render_template("home.html", txt=txt)
 
-def NYT_api():
-   file = open("keys/key_NYT.txt")
-   key = file.read().strip()
-    ##conditional for key
-   url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=election&api-key={key}")
-   json_d = url.read()
-   info = json.loads(json_d.strip())
-
-
+# 
 def dict_c_api():
-   file = open("keys/key_merriam_webster_c.txt")
-   key = file.read().strip()
-   if not key:
+    file = open("keys/key_merriam_webster_c.txt")
+    key = file.read().strip()
+    if not key:
       print("Error: API key is missing")
       return none
     ##conditional for key
-   url = urllib.request.urlopen(f"https://www.dictionaryapi.com/api/v3/references/thesaurus/json/umpire?key={key}")
-   json_d = url.read()
-   info = json.loads(json_d.strip())
-
-def dict_e_api():
-   file = open("keys/key_merriam_webster_e.txt")
-   key = file.read().strip()
-   if not key:
-      print("Error: API key is missing")
-      return none
-    ##conditional for key
-   url = urllib.request.urlopen(f"https://www.dictionaryapi.com/api/v3/references/sd2/json/school?key={key}")
-   json_d = url.read()
-   info = json.loads(json_d.strip())
-
-##function that returns user's input for city
-
-def owm_api():
-   file = open("keys/key_openweathermap.txt")
-   key = file.read().strip()
-   if not key:
-      print("Error: API key is missing")
-      return none
-   ##conditional for key
-   city = ""
-   ##try catch/conditional if city dont exist or not spell right
-   url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?{city}&appid={key}")
-   json_d = url.read()
-   info = json.loads(json_d.strip())
-
-
+    url = urllib.request.urlopen(f"https://www.dictionaryapi.com/api/v3/references/thesaurus/json/umpire?key={key}")
+    json_d = url.read()
+    info = json.loads(json_d.strip())
+    txt = info["meta"]["id"]
+    return render_template("home.html", txt=txt)
+# 
+# def dict_e_api():
+#     file = open("keys/key_merriam_webster_e.txt")
+#     key = file.read().strip()
+#     if not key:
+#       print("Error: API key is missing")
+#       return none
+#     ##conditional for key
+#     url = urllib.request.urlopen(f"https://www.dictionaryapi.com/api/v3/references/sd2/json/school?key={key}")
+#     json_d = url.read()
+#     info = json.loads(json_d.strip())
+#     return render_template("home.html", txt=txt)    
+# ##function that returns user's input for city
+# 
+# def owm_api():
+#     file = open("keys/key_openweathermap.txt")
+#     key = file.read().strip()
+#     if not key:
+#       print("Error: API key is missing")
+#       return none
+#     ##conditional for key
+#     city = ""
+#     ##try catch/conditional if city dont exist or not spell right
+#     url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?{city}&appid={key}")
+#     json_d = url.read()
+#     info = json.loads(json_d.strip())
+# 
+#     return render_template("home.html", txt=txt)
 
 if __name__ == "__main__":
     app.debug = True
