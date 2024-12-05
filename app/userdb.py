@@ -39,21 +39,23 @@ def updateWordle(username):
     if (c.execute("SELECT 1 FROM users WHERE username=?", (username))).fetchone() == None:
         return
     c.execute("SELECT streak FROM users WHERE username=?", (username,))
-    streak = c.fetchone()
-    c.execute("UPDATE users SET (wordle, streak) VALUES (?, ?) WHERE username=?", (1, streak + 1, username))
+    streak = c.fetchone()[0]
+    # print(streak)
+    c.execute("UPDATE users SET wordle=?, streak=? WHERE username=?", (1, streak + 1, username))
     users.commit()
 
 def updateDaily():
     db = sqlite3.connect(USER_FILE)
-    c = users.cursor()
-    c.execute("SELECT username FROM users")
-    users = c.fetchall()
-    for user in users:
-        c.execute("SELECT wordle FROM users WHERE username=?", (user))
-        wordle = c.fetchone()
-        if wordle == 0:
-            c.execute("INSERT INTO users (streak) VALUES (?, ?)", (1, streak + 1))
+    c = db.cursor()
+    c.execute("UPDATE users SET streak=0 WHERE wordle=0")
+    c.execute("UPDATE users SET wordle=0")
     db.commit()
+
+def entireTable():
+    db = sqlite3.connect(USER_FILE)
+    c = db.cursor()
+    c.execute("SELECT * FROM users")
+    return c.fetchall()
 
 def deleteUsers():
     db = sqlite3.connect(USER_FILE)
