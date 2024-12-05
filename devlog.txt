@@ -28,7 +28,7 @@ evanC -- 2024-12-4 10:39
 - wireframed homepage for site
 
 ankitaS -- 2024-12-4 10:45
-- started adding api links/key to __init__.py 
+- started adding api links/key to __init__.py
 - formatted launch codes
 
 jadyL -- 2024-12-4 20:50
@@ -55,3 +55,7 @@ jadyL -- 2024-12-5 10:50
 
 evanC -- 2024-12-5 10:51
 - login.html has form actions and submit buttons
+
+jadyL -- 2024-12-5 10:57
+- wrote webinfo functions
+- update code comments

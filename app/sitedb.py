@@ -6,7 +6,7 @@ import sqlite3
 
 USER_FILE="databse.db"
 
-# USER DATABASE FUNCTIONS
+# USER DATABASE FUNCTIONS------------------------------------------------------------------------------------------------
 # edit data
 def createUsers():
     users = sqlite3.connect(USER_FILE)
@@ -75,7 +75,7 @@ def deleteUsers():
     c = db.cursor()
     c.execute("DROP table users")
 
-#WEBSITE DATABASE
+#WEBSITE DATABASE ----------------------------------------------------------------------------------------
 # create data entries
 def createWebsiteInfo():
     webinfo = sqlite3.connect(USER_FILE)
@@ -143,3 +143,5 @@ def deleteWebinfo():
     db = sqlite3.connect(USER_FILE)
     c = db.cursor()
     c.execute("DROP table webinfo")
+
+#ARTICLE DATABASE ----------------------------------------------------------------------------------------
