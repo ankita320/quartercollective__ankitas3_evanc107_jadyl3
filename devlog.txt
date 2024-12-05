@@ -45,3 +45,6 @@ evanC -- 2024-12-5 00:13
     - added flask routes for ['/', '/login', '/home', '/user', '/article', '/logout', '/wordle']
     - finished '/' route to redirect to login/home routes using session
 - created and started login.html and home.html templates
+
+evanC -- 2024-12-5 00:15
+- small addition to requirements.txt (done for now)
