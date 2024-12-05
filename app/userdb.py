@@ -6,6 +6,8 @@ import sqlite3
 
 USER_FILE="users.db"
 
+
+# edit data
 def createUsers():
     users = sqlite3.connect(USER_FILE)
     c = users.cursor()
@@ -21,17 +23,6 @@ def addUser(username, password, city):
         users.commit()
         return
     return "Username taken"
-
-def checkPassword(username, password):
-    users = sqlite3.connect(USER_FILE)
-    c = users.cursor()
-    if (c.execute("SELECT 1 FROM users WHERE username=?", (username))).fetchone() == None:
-        return "Username does not exist; please register before logging in."
-    c.execute("SELECT password FROM users WHERE username=?", (username,))
-    res = c.fetchone()
-    if (password != res[0]):
-        return "Invalid login; please try again."
-    return
 
 def updateWordle(username):
     users = sqlite3.connect(USER_FILE)
@@ -50,6 +41,31 @@ def updateDaily():
     c.execute("UPDATE users SET streak=0 WHERE wordle=0")
     c.execute("UPDATE users SET wordle=0")
     db.commit()
+
+# access information
+def checkPassword(username, password):
+    users = sqlite3.connect(USER_FILE)
+    c = users.cursor()
+    if (c.execute("SELECT 1 FROM users WHERE username=?", (username))).fetchone() == None:
+        return "Username does not exist; please register before logging in."
+    c.execute("SELECT password FROM users WHERE username=?", (username,))
+    res = c.fetchone()
+    if (password != res[0]):
+        return "Invalid login; please try again."
+    return
+
+def returnCity(username):
+    users = sqlite3.connect(USER_FILE)
+    c = users.cursor()
+    c.execute("SELECT city FROM users WHERE username=?", (username))
+    if c.fetchone() == None:
+        return "No such user"
+    else:
+        return c.fetchone()[0]
+
+
+
+
 
 def entireTable():
     db = sqlite3.connect(USER_FILE)
