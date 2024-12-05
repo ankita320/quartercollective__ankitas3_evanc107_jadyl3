@@ -34,3 +34,7 @@ ankitaS -- 2024-12-4 10:45
 jadyL -- 2024-12-4 8:50
 - fix up the functions
 - do some testing
+
+ankitaS -- 2024-12-4
+- finished adding restof APIs
+- started error try/catch statements
