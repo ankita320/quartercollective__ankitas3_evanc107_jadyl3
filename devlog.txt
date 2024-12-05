@@ -38,3 +38,10 @@ jadyL -- 2024-12-4 8:50
 ankitaS -- 2024-12-4
 - finished adding restof APIs
 - started error try/catch statements
+
+evanC -- 2024-12-5 00:13
+- changes to __init__.py:
+    - added session module and some other flask modules
+    - added flask routes for ['/', '/login', '/home', '/user', '/article', '/logout', '/wordle']
+    - finished '/' route to redirect to login/home routes using session
+- created and started login.html and home.html templates
