@@ -1,12 +1,50 @@
-from flask import Flask, render_template
+### Quarter Collective: Ankita Saha, Evan Chan, and Jady Lei
+
+
+# imports
+from flask import Flask, render_template, redirect, session, request, flash
 import json
 import urllib.request
+import sqlite3
+import os
 
-app = Flask(__name__)
+# flask App
+app = Flask(__name__, template_folder = "../templates", static_folder = "../static")
+app.secret_key = os.urandom(32)
 
+@app.route("/")# checks for session and sends user to appropriate spot
+def checkSession():
+    if 'username' in session:
+        return redirect("/home")
+    return redirect("/login")
 
-@app.route("/")
+@app.route("/login", methods=["GET", "POST"])# will code registering and logging forms later
+def login():
+    if request.method =="POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
 
+        if not username or not password:# checks if both form entries were filled out
+            return redirect("/login")
+
+        #check if user has special chars
+
+        #check for existing username
+    return render_template("login.html")
+
+@app.route("/home")
+def displayHome():
+    return render_template("home.html")
+
+@app.route("/wordle")
+
+@app.route("/user/<int:user_id>")# viewing individual users
+
+@app.route("/article/<int:post_id>")# viewing news posts
+
+@app.route("/logout")
+def removeSession():
+    return redirect("/")
 
 def NYT_api():
    file = open("keys/key_NYT.txt")
@@ -15,7 +53,7 @@ def NYT_api():
    url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=election&api-key={key}")
    json_d = url.read()
    info = json.loads(json_d.strip())
-   
+
 
 def dict_c_api():
    file = open("keys/key_merriam_webster_c.txt")
@@ -53,8 +91,8 @@ def owm_api():
    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?{city}&appid={key}")
    json_d = url.read()
    info = json.loads(json_d.strip())
-   
-   
+
+
 
 if __name__ == "__main__":
     app.debug = True
