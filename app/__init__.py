@@ -1,4 +1,4 @@
-### Quarter Collective: Ankita Saha, Evan Chan, and Jady Lei
+## Quarter Collective: Ankita Saha, Evan Chan, and Jady Lei
 
 
 # imports
@@ -89,10 +89,12 @@ def NYT_api():
     for i in info["response"]["docs"]:
         headline = i["headline"]["main"]
         pub_date = i["pub_date"]
+        snippet = i["snippet"]
 
         rainArticles.append({
             "headline": headline,
             "pub_date": pub_date,
+            "snippet": snippet
         })
 
     snow_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=snow&api-key={key}")
@@ -103,10 +105,12 @@ def NYT_api():
     for i in info["response"]["docs"]:
         headline = i["headline"]["main"]
         pub_date = i["pub_date"]
+        snippet = i["snippet"]
 
         snowArticles.append({
             "headline": headline,
             "pub_date": pub_date,
+            "snippet": snippet
         })
 
     sunny_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=sunny&api-key={key}")
@@ -117,10 +121,12 @@ def NYT_api():
     for i in info["response"]["docs"]:
         headline = i["headline"]["main"]
         pub_date = i["pub_date"]
+        snippet = i["snippet"]
 
         sunnyArticles.append({
             "headline": headline,
             "pub_date": pub_date,
+            "snippet": snippet
         })
 
     cloudy_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=cloudy&api-key={key}")
@@ -131,24 +137,26 @@ def NYT_api():
     for i in info["response"]["docs"]:
         headline = i["headline"]["main"]
         pub_date = i["pub_date"]
+        snippet = i["snippet"]
 
         cloudyArticles.append({
             "headline": headline,
             "pub_date": pub_date,
+            "snippet":snippet
         })
 
     if weather_type() == "Rain":
         main_articles = rainArticles
-        weather_T = "Rainy"
+        weather_T = "rainy"
     elif weather_type() == "Snow":
         main_articles = snowArticles
-        weather_T = "Snowy"
+        weather_T = "snowy"
     elif weather_type() == "Clear":
         main_articles = sunnyArticles
-        weather_T = "Sunny"
+        weather_T = "sunny"
     elif weather_type() == "Clouds":
         main_articles = cloudyArticles
-        weather_T = "Cloudy"
+        weather_T = "cloudy"
 
     tmp = weather_temp()
     return render_template("home.html", main_articles=main_articles, weather_T=weather_T, tmp = tmp)
