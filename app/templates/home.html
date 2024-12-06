@@ -4,7 +4,21 @@
     <title>home</title>
   </head>
   <body>
-    <h1>Mars Rovers</h1> 
-  <h3></h3>
-  <p>article snippet:{{txt}}</p>
+    <h1>Quarter Weather</h1> 
+  <h3>{{weather_T}} : {{tmp}} F</h3>
+
+  <table>
+    <tr>
+        <th>title</th>
+        <th>date</th>
+    </tr>
+    {% for i in main_articles %}
+    <tr>
+        <td>{{i["headline"]}}</td>
+        <td>{{i["pub_date"]}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  
   </body>

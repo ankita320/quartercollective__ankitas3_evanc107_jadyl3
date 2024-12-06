@@ -32,9 +32,9 @@ def login():
         #check for existing username
     return render_template("login.html")
 
-@app.route("/home")
-def displayHome():
-    return render_template("home.html")
+
+#def displayHome():
+   # return render_template("home.html")
 
 @app.route("/wordle")
 
@@ -45,30 +45,127 @@ def displayHome():
 @app.route("/logout")
 def removeSession():
     return redirect("/")
-# 
-# def NYT_api():
-#     file = open("keys/key_NYT.txt")
-#     key = file.read().strip()
-#     ##conditional for key
-#     url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=election&api-key={key}")
-#     json_d = url.read()
-#     info = json.loads(json_d.strip())
-#     txt = info["response"]["docs"]
-#     return render_template("home.html", txt=txt)
 
-# 
-def dict_c_api():
-    file = open("keys/key_merriam_webster_c.txt")
-    key = file.read().strip()
+def weather_type():
+    with open("keys/key_openweathermap.txt") as file:
+      key = file.read().strip()
     if not key:
       print("Error: API key is missing")
       return none
     ##conditional for key
-    url = urllib.request.urlopen(f"https://www.dictionaryapi.com/api/v3/references/thesaurus/json/umpire?key={key}")
+    ##try catch/conditional if city dont exist or not spell right
+    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q=London&appid={key}")
     json_d = url.read()
+    w_info = json.loads(json_d.strip())
+    weatherDescrip = w_info["weather"][0]["main"]
+    temp = w_info["main"]["temp"]
+    return weatherDescrip
+
+def weather_temp():
+    with open("keys/key_openweathermap.txt") as file:
+      key = file.read().strip()
+    if not key:
+      print("Error: API key is missing")
+      return none
+    ##conditional for key
+    ##try catch/conditional if city dont exist or not spell right
+    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q=London&appid={key}")
+    json_d = url.read()
+    w_info = json.loads(json_d.strip())
+    temp = w_info["main"]["temp"]
+    temp = int(temp * (9/5) - 459.67)
+    return temp
+
+@app.route("/home")
+def NYT_api():
+    with open("keys/key_NYT.txt") as file:
+        key = file.read().strip()
+    ##conditional for key
+    rain_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=rain&api-key={key}")
+    rainArticles = []
+    json_d = rain_url.read()
     info = json.loads(json_d.strip())
-    txt = info["meta"]["id"]
-    return render_template("home.html", txt=txt)
+
+    for i in info["response"]["docs"]:
+        headline = i["headline"]["main"]
+        pub_date = i["pub_date"]
+
+        rainArticles.append({
+            "headline": headline,
+            "pub_date": pub_date,
+        })
+
+    snow_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=snow&api-key={key}")
+    snowArticles = []
+    json_d = snow_url.read()
+    info = json.loads(json_d.strip())
+
+    for i in info["response"]["docs"]:
+        headline = i["headline"]["main"]
+        pub_date = i["pub_date"]
+
+        snowArticles.append({
+            "headline": headline,
+            "pub_date": pub_date,
+        })
+
+    sunny_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=sunny&api-key={key}")
+    sunnyArticles = []
+    json_d = sunny_url.read()
+    info = json.loads(json_d.strip())
+
+    for i in info["response"]["docs"]:
+        headline = i["headline"]["main"]
+        pub_date = i["pub_date"]
+
+        sunnyArticles.append({
+            "headline": headline,
+            "pub_date": pub_date,
+        })
+
+    cloudy_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=cloudy&api-key={key}")
+    cloudyArticles = []
+    json_d = cloudy_url.read()
+    info = json.loads(json_d.strip())
+
+    for i in info["response"]["docs"]:
+        headline = i["headline"]["main"]
+        pub_date = i["pub_date"]
+
+        cloudyArticles.append({
+            "headline": headline,
+            "pub_date": pub_date,
+        })
+
+    if weather_type() == "Rain":
+        main_articles = rainArticles
+        weather_T = "Rainy"
+    elif weather_type() == "Snow":
+        main_articles = snowArticles
+        weather_T = "Snowy"
+    elif weather_type() == "Clear":
+        main_articles = sunnyArticles
+        weather_T = "Sunny"
+    elif weather_type() == "Clouds":
+        main_articles = cloudyArticles
+        weather_T = "Cloudy"
+
+    tmp = weather_temp()
+    return render_template("home.html", main_articles=main_articles, weather_T=weather_T, tmp = tmp)
+
+
+# def dict_c_api():
+#     file = open("keys/key_merriam_webster_c.txt")
+#     key = file.read().strip()
+#     if not key:
+#       print("Error: API key is missing"). 
+#       return none
+#     ##conditional for key
+#     url = urllib.request.urlopen(f"https://www.dictionaryapi.com/api/v3/references/thesaurus/json/umpire?key={key}")
+#     json_d = url.read()
+#     info = json.loads(json_d.strip())
+#     txt = info["meta"]["id"]
+#     return render_template("home.html", txt=txt)
 # 
 # def dict_e_api():
 #     file = open("keys/key_merriam_webster_e.txt")
@@ -83,20 +180,7 @@ def dict_c_api():
 #     return render_template("home.html", txt=txt)    
 # ##function that returns user's input for city
 # 
-# def owm_api():
-#     file = open("keys/key_openweathermap.txt")
-#     key = file.read().strip()
-#     if not key:
-#       print("Error: API key is missing")
-#       return none
-#     ##conditional for key
-#     city = ""
-#     ##try catch/conditional if city dont exist or not spell right
-#     url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?{city}&appid={key}")
-#     json_d = url.read()
-#     info = json.loads(json_d.strip())
-# 
-#     return render_template("home.html", txt=txt)
+
 
 if __name__ == "__main__":
     app.debug = True
