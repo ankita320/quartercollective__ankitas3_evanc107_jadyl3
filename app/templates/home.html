@@ -2,20 +2,25 @@
 <html lang="en">
   <head>
     <title>home</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
   </head>
   <body>
     <h1>Quarter Weather</h1> 
-  <h3>{{weather_T}} : {{tmp}} F</h3>
-
+  <h3>In London, it's {{weather_T}} at {{tmp}} F</h3>
+  <nav>
+  </nav>
   <table>
     <tr>
         <th>title</th>
         <th>date</th>
+        <th>content</th>
     </tr>
     {% for i in main_articles %}
     <tr>
         <td>{{i["headline"]}}</td>
         <td>{{i["pub_date"]}}</td>
+        <td>{{i["snippet"]}}</td>
     </tr>
     {% endfor %}
   </table>
