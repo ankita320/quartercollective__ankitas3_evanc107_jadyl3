@@ -88,7 +88,11 @@ def NYT_api():
 
     for i in info["response"]["docs"]:
         headline = i["headline"]["main"]
-        pub_date = i["pub_date"]
+        pub_date = ""
+        for l in i["pub_date"]:
+            if l == "T":
+                break  
+            pub_date += l
         snippet = i["snippet"]
 
         rainArticles.append({
@@ -104,7 +108,11 @@ def NYT_api():
 
     for i in info["response"]["docs"]:
         headline = i["headline"]["main"]
-        pub_date = i["pub_date"]
+        pub_date = ""
+        for l in i["pub_date"]:
+            if l == "T":
+                break  
+            pub_date += l
         snippet = i["snippet"]
 
         snowArticles.append({
@@ -120,7 +128,11 @@ def NYT_api():
 
     for i in info["response"]["docs"]:
         headline = i["headline"]["main"]
-        pub_date = i["pub_date"]
+        pub_date = ""
+        for l in i["pub_date"]:
+            if l == "T":
+                break  
+            pub_date += l
         snippet = i["snippet"]
 
         sunnyArticles.append({
@@ -136,7 +148,11 @@ def NYT_api():
 
     for i in info["response"]["docs"]:
         headline = i["headline"]["main"]
-        pub_date = i["pub_date"]
+        pub_date = ""
+        for l in i["pub_date"]:
+            if l == "T":
+                break  
+            pub_date += l
         snippet = i["snippet"]
 
         cloudyArticles.append({
