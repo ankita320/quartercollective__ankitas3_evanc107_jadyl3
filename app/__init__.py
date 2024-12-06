@@ -158,7 +158,7 @@ def NYT_api():
 #     file = open("keys/key_merriam_webster_c.txt")
 #     key = file.read().strip()
 #     if not key:
-#       print("Error: API key is missing"). 
+#       print("Error: API key is missing").
 #       return none
 #     ##conditional for key
 #     url = urllib.request.urlopen(f"https://www.dictionaryapi.com/api/v3/references/thesaurus/json/umpire?key={key}")
@@ -166,7 +166,7 @@ def NYT_api():
 #     info = json.loads(json_d.strip())
 #     txt = info["meta"]["id"]
 #     return render_template("home.html", txt=txt)
-# 
+#
 # def dict_e_api():
 #     file = open("keys/key_merriam_webster_e.txt")
 #     key = file.read().strip()
@@ -177,9 +177,9 @@ def NYT_api():
 #     url = urllib.request.urlopen(f"https://www.dictionaryapi.com/api/v3/references/sd2/json/school?key={key}")
 #     json_d = url.read()
 #     info = json.loads(json_d.strip())
-#     return render_template("home.html", txt=txt)    
+#     return render_template("home.html", txt=txt)
 # ##function that returns user's input for city
-# 
+#
 
 
 if __name__ == "__main__":
