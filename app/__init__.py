@@ -76,90 +76,117 @@ def weather_temp():
     temp = int(temp * (9/5) - 459.67)
     return temp
 
+# def dict_c_api():
+#     with open("keys/key_merriam_webster_c.txt") as file:
+#         key = file.read().strip()
+#     if not key:
+#       print("Error: API key is missing")
+#     word = "School"
+#     url = urllib.request.urlopen(f"https://www.dictionaryapi.com/api/v3/references/thesaurus/json/{word}?key={key}")
+#     json_d = url.read()
+#     info = json.loads(json_d.strip())
+#     print("info")
+#     word_def = info[0]["shortdef"][0]
+#     return word_def
+
 @app.route("/home")
 def NYT_api():
     with open("keys/key_NYT.txt") as file:
         key = file.read().strip()
-    ##conditional for key
-    rain_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=rain&api-key={key}")
-    rainArticles = []
-    json_d = rain_url.read()
-    info = json.loads(json_d.strip())
+    if not key:
+      print("Error: API key is missing")
+    try:
+        rain_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=rain&api-key={key}")
+        rainArticles = []
+        json_d = rain_url.read()
+        info = json.loads(json_d.strip())
 
-    for i in info["response"]["docs"]:
-        headline = i["headline"]["main"]
-        pub_date = ""
-        for l in i["pub_date"]:
-            if l == "T":
-                break  
-            pub_date += l
-        snippet = i["snippet"]
+        for i in info["response"]["docs"]:
+            headline = i["headline"]["main"]
+            pub_date = ""
+            for l in i["pub_date"]:
+                if l == "T":
+                    break  
+                pub_date += l
+            snippet = i["snippet"]
 
-        rainArticles.append({
-            "headline": headline,
-            "pub_date": pub_date,
-            "snippet": snippet
-        })
+            rainArticles.append({
+                "headline": headline,
+                "pub_date": pub_date,
+                "snippet": snippet
+            })
+    except Exception as e:
+        return (f"Unexpected error! Be patient pls.")
 
-    snow_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=snow&api-key={key}")
-    snowArticles = []
-    json_d = snow_url.read()
-    info = json.loads(json_d.strip())
+    try:
+        snow_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=snow&api-key={key}")
+        snowArticles = []
+        json_d = snow_url.read()
+        info = json.loads(json_d.strip())
 
-    for i in info["response"]["docs"]:
-        headline = i["headline"]["main"]
-        pub_date = ""
-        for l in i["pub_date"]:
-            if l == "T":
-                break  
-            pub_date += l
-        snippet = i["snippet"]
+        for i in info["response"]["docs"]:
+            headline = i["headline"]["main"]
+            pub_date = ""
+            for l in i["pub_date"]:
+                if l == "T":
+                    break  
+                pub_date += l
+            snippet = i["snippet"]
 
-        snowArticles.append({
-            "headline": headline,
-            "pub_date": pub_date,
-            "snippet": snippet
-        })
+            snowArticles.append({
+                "headline": headline,
+                "pub_date": pub_date,
+                "snippet": snippet
+            })
 
-    sunny_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=sunny&api-key={key}")
-    sunnyArticles = []
-    json_d = sunny_url.read()
-    info = json.loads(json_d.strip())
+    except Exception as e:
+        return (f"Unexpected error! Be patient pls.")
+    
+    try:
+        sunny_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=sunny&api-key={key}")
+        sunnyArticles = []
+        json_d = sunny_url.read()
+        info = json.loads(json_d.strip())
 
-    for i in info["response"]["docs"]:
-        headline = i["headline"]["main"]
-        pub_date = ""
-        for l in i["pub_date"]:
-            if l == "T":
-                break  
-            pub_date += l
-        snippet = i["snippet"]
+        for i in info["response"]["docs"]:
+            headline = i["headline"]["main"]
+            pub_date = ""
+            for l in i["pub_date"]:
+                if l == "T":
+                    break  
+                pub_date += l
+            snippet = i["snippet"]
 
-        sunnyArticles.append({
-            "headline": headline,
-            "pub_date": pub_date,
-            "snippet": snippet
-        })
+            sunnyArticles.append({
+                "headline": headline,
+                "pub_date": pub_date,
+                "snippet": snippet
+            })
+    except Exception as e:
+        return (f"Unexpected error! Be patient pls.")
 
-    cloudy_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=cloudy&api-key={key}")
-    cloudyArticles = []
-    json_d = cloudy_url.read()
-    info = json.loads(json_d.strip())
+    try:
+        cloudy_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=cloudy&api-key={key}")
+        cloudyArticles = []
+        json_d = cloudy_url.read()
+        info = json.loads(json_d.strip())
 
-    for i in info["response"]["docs"]:
-        headline = i["headline"]["main"]
-        pub_date = ""
-        for l in i["pub_date"]:
-            if l == "T":
-                break  
-            pub_date += l
-        snippet = i["snippet"]
+        for i in info["response"]["docs"]:
+            headline = i["headline"]["main"]
+            pub_date = ""
+            for l in i["pub_date"]:
+                if l == "T":
+                    break  
+                pub_date += l
+            snippet = i["snippet"]
 
-        cloudyArticles.append({
-            "headline": headline,
-            "pub_date": pub_date,
-            "snippet":snippet
-        })
+            cloudyArticles.append({
+                "headline": headline,
+                "pub_date": pub_date,
+                "snippet":snippet
+            })
+    except Exception as e:
+        return (f"Unexpected error! Be patient pls.")
 
     if weather_type() == "Rain":
         main_articles = rainArticles
@@ -174,22 +201,12 @@ def NYT_api():
         main_articles = cloudyArticles
         weather_T = "cloudy"
 
+    #w = dict_c_api()
     tmp = weather_temp()
     return render_template("home.html", main_articles=main_articles, weather_T=weather_T, tmp = tmp)
 
 
-# def dict_c_api():
-#     file = open("keys/key_merriam_webster_c.txt")
-#     key = file.read().strip()
-#     if not key:
-#       print("Error: API key is missing").
-#       return none
-#     ##conditional for key
-#     url = urllib.request.urlopen(f"https://www.dictionaryapi.com/api/v3/references/thesaurus/json/umpire?key={key}")
-#     json_d = url.read()
-#     info = json.loads(json_d.strip())
-#     txt = info["meta"]["id"]
-#     return render_template("home.html", txt=txt)
+
 #
 # def dict_e_api():
 #     file = open("keys/key_merriam_webster_e.txt")
