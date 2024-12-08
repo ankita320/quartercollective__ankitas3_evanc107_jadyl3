@@ -74,3 +74,10 @@ jadyL -- 2024-12-7 20:13
 - added a character filter for username and password
 - split up login and register
 - tried to connect db functions to login/register
+
+evanC -- 2024-12-7-21:15
+- changes to login.html:
+    - login goes to home when correctly completed
+    - login adds user to session if correct
+- login and register link to each other now properly
+- home redirects to login if session isnt matched
