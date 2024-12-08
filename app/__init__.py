@@ -27,16 +27,19 @@ def login():
         username = request.form.get("username")
         password = request.form.get("password")
 
-        if not username or not password:# checks if all 3 form entries were filled out
-            return render_template("login.html", warning = "empty field(s)")
+        if not username or not password:# checks if both form entries were filled out
+            flash("Missing username/password", "error")
+            return redirect("/login")
 
-        message = checkPassword(username, password)
-        if message == None:
+        if checkPassword(username, password):# if password is correct, given user exists
+            session["username"] = username# adds user to session
             return redirect("/home")
-        else:
-            return render_template("login.html", warning = message)
 
-    return render_template("login.html")
+        else:# if password isnt correct
+            flash("Invalid username/password", "error")
+            return redirect("/login")
+
+    return render_template("login.html")# if GET request, just renders login page
 
 @app.route("/register", methods=["GET", "POST"])# will code registering and logging forms later
 def register():
@@ -58,9 +61,11 @@ def register():
 
     return render_template("register.html")
 
-
-#def displayHome():
-   # return render_template("home.html")
+@app.route("/home", methods=["GET", "POST"])
+def homesweethome():
+    if "username" not in session:
+        return redirect("/login")
+    return render_template("home.html")
 
 @app.route("/wordle")
 
@@ -115,10 +120,6 @@ def weather_temp():
 #     word_def = info[0]["shortdef"][0]
 #     return word_def
 
-@app.route("/home")
-def loginTesting():
-    return ""
-
 @app.route("/home1")
 def NYT_api():
     with open("keys/key_NYT.txt") as file:
@@ -136,7 +137,7 @@ def NYT_api():
             pub_date = ""
             for l in i["pub_date"]:
                 if l == "T":
-                    break  
+                    break
                 pub_date += l
             snippet = i["snippet"]
 
@@ -159,7 +160,7 @@ def NYT_api():
             pub_date = ""
             for l in i["pub_date"]:
                 if l == "T":
-                    break  
+                    break
                 pub_date += l
             snippet = i["snippet"]
 
@@ -171,7 +172,7 @@ def NYT_api():
 
     except Exception as e:
         return (f"Unexpected error! Be patient pls.")
-    
+
     try:
         sunny_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=sunny&api-key={key}")
         sunnyArticles = []
@@ -183,7 +184,7 @@ def NYT_api():
             pub_date = ""
             for l in i["pub_date"]:
                 if l == "T":
-                    break  
+                    break
                 pub_date += l
             snippet = i["snippet"]
 
@@ -206,7 +207,7 @@ def NYT_api():
             pub_date = ""
             for l in i["pub_date"]:
                 if l == "T":
-                    break  
+                    break
                 pub_date += l
             snippet = i["snippet"]
 

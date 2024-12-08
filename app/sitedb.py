@@ -17,7 +17,7 @@ def createUsers():
 
 def addUser(username, password, city):
     users = sqlite3.connect(USER_FILE)
-    goodcharas = set("abcdefghijklmnop12345678910.")
+    goodcharas = set("abcdefghijklmnop12345678910.ABCDEFGHIJKLMNOP")
     if set(username).difference(goodcharas) or set(password).difference(goodcharas):
         return "There are special characters in the username or password."
     c = users.cursor()
@@ -55,7 +55,7 @@ def checkPassword(username, password):
     res = c.fetchone()
     if (password != res[0]):
         return "Invalid login; please try again."
-    return
+    return True
 
 def returnCity(username):
     users = sqlite3.connect(USER_FILE)
