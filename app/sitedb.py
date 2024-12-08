@@ -17,7 +17,7 @@ def createUsers():
 
 def addUser(username, password, city):
     users = sqlite3.connect(USER_FILE)
-    goodcharas = set("abcdefghijklmnop12345678910.ABCDEFGHIJKLMNOP")
+    goodcharas = set("abcdefghijklmnop12345678910.ABCDEFGHIJKLMNOPQRSTUVWXYZ")
     if set(username).difference(goodcharas) or set(password).difference(goodcharas):
         return "There are special characters in the username or password."
     c = users.cursor()
@@ -49,7 +49,7 @@ def updateDaily():
 def checkPassword(username, password):
     users = sqlite3.connect(USER_FILE)
     c = users.cursor()
-    if (c.execute("SELECT 1 FROM users WHERE username=?", (username))).fetchone() == None:
+    if (c.execute("SELECT city FROM users WHERE username=?", (username))).fetchone() == None:
         return "Username does not exist; please register before logging in."
     c.execute("SELECT password FROM users WHERE username=?", (username,))
     res = c.fetchone()
@@ -82,18 +82,18 @@ def deleteUsers():
 # create data entries
 def createWebsiteInfo():
     webinfo = sqlite3.connect(USER_FILE)
-    c = users.cursor()
+    c = webinfo.cursor()
     command = "CREATE TABLE IF NOT EXISTS webinfo (username TEXT, wordOfTheDay TEXT, temperature TEXT, conditions TEXT"
     c.execute(command)
-    users.commit()
+    webinfo.commit()
 
 def enterUserInfo(username):
     webinfo = sqlite3.connect(USER_FILE)
-    c = users.cursor()
+    c = webinfo.cursor()
     c.execute("INSERT INTO webinfo (username) VALUES (?)", (username))
-    users.commit()
+    webinfo.commit()
 
-def updateUserInfoWeather(temperature, conditions):
+def updateUserInfoWeather(username, temperature, conditions):
     users = sqlite3.connect(USER_FILE)
     c = users.cursor()
     if (c.execute("SELECT 1 FROM webinfo WHERE username=?", (username))).fetchone() == None:
