@@ -70,3 +70,7 @@ ankitaS - 2024 -- 2024-12-5 21:42
 - used weather api to retrieve temperature and weather description (snow, cloud, rain, etc.)
 - connected APIs so articles for specified weather shows up when it is that weather
 
+jadyL -- 2024-12-7 20:13
+- added a character filter for username and password
+- split up login and register
+- tried to connect db functions to login/register

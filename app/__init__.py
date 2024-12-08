@@ -8,6 +8,9 @@ import urllib.request
 import sqlite3
 import os
 
+#custom module
+from sitedb import *
+
 # flask App
 app = Flask(__name__, template_folder = "templates", static_folder = "../static")
 app.secret_key = os.urandom(32)
@@ -24,13 +27,36 @@ def login():
         username = request.form.get("username")
         password = request.form.get("password")
 
-        if not username or not password:# checks if both form entries were filled out
-            return redirect("/login")
+        if not username or not password:# checks if all 3 form entries were filled out
+            return render_template("login.html", warning = "empty field(s)")
+
+        message = checkPassword(username, password)
+        if message == None:
+            return redirect("/home")
+        else:
+            return render_template("login.html", warning = message)
+
+    return render_template("login.html")
+
+@app.route("/register", methods=["GET", "POST"])# will code registering and logging forms later
+def register():
+    if request.method =="POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        city = request.form.get("city")
+
+        if not username or not password or not city:# checks if all 3 form entries were filled out
+            return render_template("register.html", warning = "empty field(s)")
 
         #check if user has special chars
-
         #check for existing username
-    return render_template("login.html")
+        message = addUser(username, password, city)
+        if message:
+            return render_template("register.html", warning = message)
+        else:
+            return redirect("/login")
+
+    return render_template("register.html")
 
 
 #def displayHome():
@@ -90,6 +116,10 @@ def weather_temp():
 #     return word_def
 
 @app.route("/home")
+def loginTesting():
+    return ""
+
+@app.route("/home1")
 def NYT_api():
     with open("keys/key_NYT.txt") as file:
         key = file.read().strip()

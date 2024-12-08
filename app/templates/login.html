@@ -6,19 +6,13 @@
   <body>
     <div>
       <h3>login</h3>
-      <form action = "/home">
-      <input type = "text"  id= "username" name= "username" placeholder= "username">
-      <input type= "password" class= "form-control" id= "password" name= "password" placeholder= "password">
-      <button type = "submit">login</button>
+      <p>{{warning}}</p>
+      <form action = "/" method="POST">
+        <input type = "text"  id= "username" name= "username" placeholder= "username">
+        <input type= "password" class= "form-control" id= "password" name= "password" placeholder= "password">
+        <button type = "submit">login</button>  
       <form>
-    </div>
-    <div>
-      <h3>register</h3>
-        <form action = "/login">
-          <input type = "text"  id= "username" name= "username" placeholder= "username">
-          <input type= "password" class= "form-control" id= "password" name= "password" placeholder= "password">
-          <button type = "submit">register</button>
-        <form>
+      <a href="http://127.0.0.1:5000/register"><button>Go to Register</button></a>     
     </div>
   </body>
 </html>

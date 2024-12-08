@@ -17,12 +17,15 @@ def createUsers():
 
 def addUser(username, password, city):
     users = sqlite3.connect(USER_FILE)
+    goodcharas = set("abcdefghijklmnop12345678910.")
+    if set(username).difference(goodcharas) or set(password).difference(goodcharas):
+        return "There are special characters in the username or password."
     c = users.cursor()
     if (c.execute("SELECT 1 FROM users WHERE username=?", (username,))).fetchone() == None:
         c.execute("INSERT INTO users (username, password, city, wordle, streak) VALUES (?, ?, ?, ?, ?)", (username, password, city, 0, 0))
         users.commit()
         return
-    return "Username taken"
+    return "Username taken."
 
 def updateWordle(username):
     users = sqlite3.connect(USER_FILE)
