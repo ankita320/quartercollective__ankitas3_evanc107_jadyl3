@@ -64,11 +64,16 @@ jadyL -- 2024-12-5 10:57
 - wrote webinfo functions
 - update code comments
 
-ankitaS - 2024 -- 2024-12-5 21:42
+ankitaS - 2024-12-5 21:42
 - Displayed NYT Article content on home.html with headline and date
 - functions for displaying articles fro specific weather categories (rain, snow, sun, etc.)
 - used weather api to retrieve temperature and weather description (snow, cloud, rain, etc.)
 - connected APIs so articles for specified weather shows up when it is that weather
+
+ankitaS -- 2024-12-6 23:21
+- added navbar for articles and wordle game
+- added error handling mechanisms for 429 request error
+- started merriam webster API
 
 jadyL -- 2024-12-7 20:13
 - added a character filter for username and password
