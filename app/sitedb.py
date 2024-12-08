@@ -49,8 +49,9 @@ def updateDaily():
 def checkPassword(username, password):
     users = sqlite3.connect(USER_FILE)
     c = users.cursor()
-    if (c.execute("SELECT city FROM users WHERE username=?", (username))).fetchone() == None:
-        return "Username does not exist; please register before logging in."
+    c.execute("SELECT city FROM users WHERE username=?", (username))
+    if c.fetchone() == None:
+        return False
     c.execute("SELECT password FROM users WHERE username=?", (username,))
     res = c.fetchone()
     if (password != res[0]):

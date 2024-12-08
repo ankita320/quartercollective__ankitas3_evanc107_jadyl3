@@ -86,3 +86,6 @@ evanC -- 2024-12-7-21:15
     - login adds user to session if correct
 - login and register link to each other now properly
 - home redirects to login if session isnt matched
+
+jadyL -- 2024-12-7 20:13
+- error fixed: we weren't creating the table before using it.
