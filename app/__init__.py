@@ -17,6 +17,7 @@ app.secret_key = os.urandom(32)
 
 @app.route("/")# checks for session and sends user to appropriate spot
 def checkSession():
+    createUsers()
     if 'username' in session:
         return redirect("/home")
     return redirect("/login")
@@ -107,18 +108,23 @@ def weather_temp():
     temp = int(temp * (9/5) - 459.67)
     return temp
 
-# def dict_c_api():
-#     with open("keys/key_merriam_webster_c.txt") as file:
-#         key = file.read().strip()
-#     if not key:
-#       print("Error: API key is missing")
-#     word = "School"
-#     url = urllib.request.urlopen(f"https://www.dictionaryapi.com/api/v3/references/thesaurus/json/{word}?key={key}")
-#     json_d = url.read()
-#     info = json.loads(json_d.strip())
-#     print("info")
-#     word_def = info[0]["shortdef"][0]
-#     return word_def
+def dict_c_api():
+    try:
+        with open("keys/key_merriam_webster_c.txt") as file:
+            key = file.read().strip()
+    except:
+        return "Key error!!!!!!"
+    
+    word = "battle"
+    url = urllib.request.urlopen(f"https://dictionaryapi.com/api/v3/references/collegiate/json/{word}?key={key}")
+    json_d = url.read()
+    try:
+        info = json.loads(json_d.strip())
+    except:
+        return {"error!!!!!"}
+    print("info")
+    word_def = info[0]["shortdef"][0]
+    return word_def
 
 @app.route("/home1")
 def NYT_api():
@@ -126,6 +132,7 @@ def NYT_api():
         key = file.read().strip()
     if not key:
       print("Error: API key is missing")
+      return None
     try:
         rain_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=rain&api-key={key}")
         rainArticles = []
@@ -232,9 +239,9 @@ def NYT_api():
         main_articles = cloudyArticles
         weather_T = "cloudy"
 
-    #w = dict_c_api()
+    w = dict_c_api()
     tmp = weather_temp()
-    return render_template("home.html", main_articles=main_articles, weather_T=weather_T, tmp = tmp)
+    return render_template("home.html", main_articles=main_articles, weather_T=weather_T, tmp = tmp, w=w)
 
 
 
