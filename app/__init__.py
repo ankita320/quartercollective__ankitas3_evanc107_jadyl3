@@ -79,9 +79,10 @@ def removeSession():
     return redirect("/")
 
 def weather_type():
-    with open("keys/key_openweathermap.txt") as file:
-      key = file.read().strip()
-    if not key:
+    try: 
+        with open("keys/key_openweathermap.txt") as file:
+          key = file.read().strip()
+    except:
       print("Error: API key is missing")
       return none
     ##conditional for key
@@ -94,9 +95,10 @@ def weather_type():
     return weatherDescrip
 
 def weather_temp():
-    with open("keys/key_openweathermap.txt") as file:
-      key = file.read().strip()
-    if not key:
+    try: 
+        with open("keys/key_openweathermap.txt") as file:
+          key = file.read().strip()
+    except:
       print("Error: API key is missing")
       return none
     ##conditional for key
@@ -128,9 +130,10 @@ def dict_c_api():
 
 @app.route("/home1")
 def NYT_api():
-    with open("keys/key_NYT.txt") as file:
-        key = file.read().strip()
-    if not key:
+    try:
+        with open("keys/key_NYT.txt") as file:
+            key = file.read().strip()
+    except:
       print("Error: API key is missing")
       return None
     try:
