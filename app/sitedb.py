@@ -30,7 +30,7 @@ def addUser(username, password, city):
 def updateWordle(username):
     users = sqlite3.connect(USER_FILE)
     c = users.cursor()
-    if (c.execute("SELECT 1 FROM users WHERE username=?", (username))).fetchone() == None:
+    if (c.execute("SELECT 1 FROM users WHERE username=?", (username,))).fetchone() == None:
         return
     c.execute("SELECT streak FROM users WHERE username=?", (username,))
     streak = c.fetchone()[0]
@@ -49,7 +49,7 @@ def updateDaily():
 def checkPassword(username, password):
     users = sqlite3.connect(USER_FILE)
     c = users.cursor()
-    c.execute("SELECT city FROM users WHERE username=?", (username))
+    c.execute("SELECT city FROM users WHERE username=?", (username,))
     if c.fetchone() == None:
         return False
     c.execute("SELECT password FROM users WHERE username=?", (username,))
@@ -61,7 +61,7 @@ def checkPassword(username, password):
 def returnCity(username):
     users = sqlite3.connect(USER_FILE)
     c = users.cursor()
-    c.execute("SELECT city FROM users WHERE username=?", (username))
+    c.execute("SELECT city FROM users WHERE username=?", (username,))
     if c.fetchone() == None:
         return "No such user"
     else:
@@ -91,13 +91,13 @@ def createWebsiteInfo():
 def enterUserInfo(username):
     webinfo = sqlite3.connect(USER_FILE)
     c = webinfo.cursor()
-    c.execute("INSERT INTO webinfo (username) VALUES (?)", (username))
+    c.execute("INSERT INTO webinfo (username) VALUES (?)", (username,))
     webinfo.commit()
 
 def updateUserInfoWeather(username, temperature, conditions):
     users = sqlite3.connect(USER_FILE)
     c = users.cursor()
-    if (c.execute("SELECT 1 FROM webinfo WHERE username=?", (username))).fetchone() == None:
+    if (c.execute("SELECT 1 FROM webinfo WHERE username=?", (username,))).fetchone() == None:
         return
     c.execute("UPDATE webinfo SET temperature=?, conditions=? WHERE username=?", (temperature, conditions, username))
     users.commit()
@@ -105,7 +105,7 @@ def updateUserInfoWeather(username, temperature, conditions):
 def updateWordOfTheDay(wordOfTheDay):
     db = sqlite3.connect(USER_FILE)
     c = db.cursor()
-    c.execute("UPDATE webinfo SET wordOfTheDay=?", (wordOfTheDay))
+    c.execute("UPDATE webinfo SET wordOfTheDay=?", (wordOfTheDay,))
     db.commit()
 
 #return functions
@@ -149,3 +149,70 @@ def deleteWebinfo():
     c.execute("DROP table webinfo")
 
 #ARTICLE DATABASE ----------------------------------------------------------------------------------------
+# create data entries
+# def createWebsiteInfo():
+#     webinfo = sqlite3.connect(USER_FILE)
+#     c = webinfo.cursor()
+#     command = "CREATE TABLE IF NOT EXISTS webinfo (username TEXT, wordOfTheDay TEXT, temperature TEXT, conditions TEXT"
+#     c.execute(command)
+#     webinfo.commit()
+#
+# def enterUserInfo(username):
+#     webinfo = sqlite3.connect(USER_FILE)
+#     c = webinfo.cursor()
+#     c.execute("INSERT INTO webinfo (username) VALUES (?)", (username))
+#     webinfo.commit()
+#
+# def updateUserInfoWeather(username, temperature, conditions):
+#     users = sqlite3.connect(USER_FILE)
+#     c = users.cursor()
+#     if (c.execute("SELECT 1 FROM webinfo WHERE username=?", (username))).fetchone() == None:
+#         return
+#     c.execute("UPDATE webinfo SET temperature=?, conditions=? WHERE username=?", (temperature, conditions, username))
+#     users.commit()
+#
+# def updateWordOfTheDay(wordOfTheDay):
+#     db = sqlite3.connect(USER_FILE)
+#     c = db.cursor()
+#     c.execute("UPDATE webinfo SET wordOfTheDay=?", (wordOfTheDay))
+#     db.commit()
+#
+# #return functions
+# def getWord(username):
+#     db = sqlite3.connect(USER_FILE)
+#     c = db.cursor()
+#     c.execute("SELECT wordOfTheDay FROM webinfo WHERE username=?", (username))
+#     if c.fetchone() == None:
+#         return "No such user"
+#     else:
+#         return c.fetchone()[0]
+#
+# def getTemperature(username):
+#     db = sqlite3.connect(USER_FILE)
+#     c = db.cursor()
+#     c.execute("SELECT temperature FROM webinfo WHERE username=?", (username))
+#     if c.fetchone() == None:
+#         return "No such user"
+#     else:
+#         return c.fetchone()[0]
+#
+# def getWeatherConditions(username):
+#     db = sqlite3.connect(USER_FILE)
+#     c = db.cursor()
+#     c.execute("SELECT conditions FROM webinfo WHERE username=?", (username))
+#     if c.fetchone() == None:
+#         return "No such user"
+#     else:
+#         return c.fetchone()[0]
+#
+# # dev functions
+# def returnEntireWebinfoTable():
+#     db = sqlite3.connect(USER_FILE)
+#     c = db.cursor()
+#     c.execute("SELECT * FROM webinfo")
+#     return c.fetchall()
+#
+# def deleteWebinfo():
+#     db = sqlite3.connect(USER_FILE)
+#     c = db.cursor()
+#     c.execute("DROP table webinfo")
