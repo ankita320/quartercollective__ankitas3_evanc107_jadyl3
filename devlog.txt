@@ -92,3 +92,9 @@ jadyL -- 2024-12-7 20:13
 
 jadyL -- 2024-12-9 10:59
 - untested article db function
+
+evanC -- 2024-12-9 18:21
+- home now has a working route to logout, profile, and wordle
+- fixed issue with database not allowing several lowercase letters and also added some other special characters to the whitelist
+- clarfied login and register screens
+- started working on wordle page
