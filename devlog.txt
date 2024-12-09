@@ -89,3 +89,6 @@ evanC -- 2024-12-7-21:15
 
 jadyL -- 2024-12-7 20:13
 - error fixed: we weren't creating the table before using it.
+
+jadyL -- 2024-12-9 10:59
+- untested article db function
