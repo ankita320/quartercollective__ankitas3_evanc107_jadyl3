@@ -24,6 +24,9 @@ def checkSession():
 
 @app.route("/login", methods=["GET", "POST"])# will code registering and logging forms later
 def login():
+    if 'username' in session:
+        return redirect("/home")
+
     if request.method =="POST":
         username = request.form.get("username")
         password = request.form.get("password")
@@ -69,6 +72,8 @@ def homesweethome():
     return render_template("home.html")
 
 @app.route("/wordle")
+def doWordle():
+    return render_template("wordle.html")
 
 @app.route("/user/<int:user_id>")# viewing individual users
 
@@ -76,10 +81,11 @@ def homesweethome():
 
 @app.route("/logout")
 def removeSession():
+    session.pop('username', None)
     return redirect("/")
 
 def weather_type():
-    try: 
+    try:
         with open("keys/key_openweathermap.txt") as file:
           key = file.read().strip()
     except:
@@ -95,7 +101,7 @@ def weather_type():
     return weatherDescrip
 
 def weather_temp():
-    try: 
+    try:
         with open("keys/key_openweathermap.txt") as file:
           key = file.read().strip()
     except:
@@ -116,7 +122,7 @@ def dict_c_api():
             key = file.read().strip()
     except:
         return "Key error!!!!!!"
-    
+
     word = "battle"
     url = urllib.request.urlopen(f"https://dictionaryapi.com/api/v3/references/collegiate/json/{word}?key={key}")
     json_d = url.read()

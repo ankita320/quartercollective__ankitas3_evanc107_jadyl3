@@ -6,14 +6,16 @@
 
   </head>
   <body>
-    <h1>Quarter Weather</h1> 
+    <a href="/user">my profile (not functional)</a>
+    <br>
+    <a href="/logout">logout (is functional)</a>
+    <h1>Quarter Weather</h1>
   <h3>In London, it's {{weather_T}} at {{tmp}} F</h3>
   <nav style="display: inline-block;">
     <ul class="nav navbar-nav">
-      <li><a href="#">Articles</a>
-      </li>
-      <li><a href="#">QW+</a>
-      </li>
+      <li><a href="#">Articles</a></li>
+      <li><a href="#">QW+</a></li>
+      <li><a href="/wordle">wordle</a></li>
     </ul>
   </nav>
   <table>
@@ -22,7 +24,7 @@
         <th>content</th>
     </tr>
     {% for i in main_articles %}
-    <tr> 
+    <tr>
         <td>
           <p>{{i["headline"]}}</p>
           <p>{{i["pub_date"]}}</p>
@@ -33,5 +35,5 @@
   </table>
   <p>{{w}}</p>
 
-  
+
   </body>
