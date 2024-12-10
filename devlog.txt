@@ -90,6 +90,11 @@ evanC -- 2024-12-7-21:15
 jadyL -- 2024-12-7 20:13
 - error fixed: we weren't creating the table before using it.
 
+ankitaS -- 2024-12-8 00:21
+- pulled definition from MW api
+- changed route to home1
+- added try catch for keys
+
 jadyL -- 2024-12-9 10:59
 - untested article db function
 
@@ -98,3 +103,6 @@ evanC -- 2024-12-9 18:21
 - fixed issue with database not allowing several lowercase letters and also added some other special characters to the whitelist
 - clarfied login and register screens
 - started working on wordle page
+
+ankitaS -- 2024-12-9 19:32
+- put url for articles
