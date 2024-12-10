@@ -2,11 +2,51 @@
 <html lang="en">
 <head>
   <title>wordle</title>
+    <style>
+    canvas {
+        border:1px solid #eeeeee
+        background-color: #f1f1f1
+    }
+    </style>
 </head>
+
+<script>
+    var answer;
+    var guesses;
+    var currGuess;
+    var guessNum;
+    var guessed;
+
+    function start(){
+        answer = {{answer}};
+        guesses = new char[][];
+        currGuess = char[6];
+        guessNum = 1;
+        guessed = false;
+        
+        playplace.start();
+    }
+
+    var playplace = {
+        canvas: document.createElement("canvas"),
+        start : function() {
+            this.canvas.width = 480;
+            this.canvas.height = 720;
+            this.context = this.canvas.getContext("2d");
+            document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        },
+        clear: function() {
+            this.context.clearRect(0,0,this.canvas.width,this.canvas.height)
+        }
+    }
+</script>
+
 <body>
   <div>
     <a href = "/home"><h3>QuarterCollective</h3></a>
-    <p>{{w}}</p>
+  </div>
+  <div>
+    
   </div>
 </body>
 </html>
