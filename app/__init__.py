@@ -21,7 +21,7 @@ app.secret_key = os.urandom(32)
 
 @app.route("/")# checks for session and sends user to appropriate spot
 def checkSession():
-    createUsers()
+    createTables()
     if 'username' in session:
         return redirect("/home")
     return redirect("/login")

@@ -106,3 +106,7 @@ evanC -- 2024-12-9 18:21
 
 ankitaS -- 2024-12-9 19:32
 - put url for articles
+
+jadyL -- 2024-12-9 10:01
+- wrapper function for creating tables
+- mde wordleguess table functions

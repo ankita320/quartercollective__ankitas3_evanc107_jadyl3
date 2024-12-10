@@ -6,6 +6,11 @@ import sqlite3
 
 USER_FILE="databse.db"
 
+def createTables():
+    createUsers()
+    createArticleDB()
+    createWebsiteInfo()
+
 # USER DATABASE FUNCTIONS------------------------------------------------------------------------------------------------
 # edit data
 def createUsers():
@@ -153,14 +158,14 @@ def deleteWebinfo():
 def createArticleDB():
     db = sqlite3.connect(USER_FILE)
     c = webinfo.cursor()
-    command = "CREATE TABLE IF NOT EXISTS articles (weathercondition TEXT, articlename TEXT, author TEXT, title TEXT, date TEXT, synopsis TEXT, hearts INTEGER"
+    command = "CREATE TABLE IF NOT EXISTS articles (weathercondition TEXT, articlename TEXT, date TEXT, synopsis TEXT, hearts INTEGER"
     c.execute(command)
     db.commit()
 
-def createArticleEntry(weathercondition, articlename, author, title, date, synopsis, hearts):
+def createArticleEntry(weathercondition, articlename, date, synopsis, hearts):
     webinfo = sqlite3.connect(USER_FILE)
     c = webinfo.cursor()
-    c.execute("INSERT INTO articles (weathercondition, articlename, author, title, synopsis, hearts) VALUES (?, ?, ?, ?, ?, ?, ?)", (weathercondition, articlename, author, title, date, synopsis, hearts))
+    c.execute("INSERT INTO articles (weathercondition, articlename, date, synopsis, hearts) VALUES (?, ?, ?, ?, ?, ?, ?)", (weathercondition, articlename, author, title, date, synopsis, hearts))
     webinfo.commit()
 
 def updateHearts(weathercondition, articlename, change):
@@ -195,3 +200,39 @@ def deleteArticles():
     db = sqlite3.connect(USER_FILE)
     c = db.cursor()
     c.execute("DROP table articles")
+
+# WordleGuessTable -------------------------------------------------------------------------------------------------
+# create and edit table
+def createWordleGuessTable():
+    users = sqlite3.connect(USER_FILE)
+    c = users.cursor()
+    command = "CREATE TABLE IF NOT EXISTS wordleGuesses (username TEXT, date TEXT, guess Text)"
+    c.execute(command)
+    users.commit()
+
+def addGuess(username, date, guess):
+    users = sqlite3.connect(USER_FILE)
+    c = users.cursor()
+    c.execute("INSERT INTO wordleGuesses (username, date, guess) VALUES (?, ?, ?)", (username, date, guess))
+
+# access information
+def returnGuesses(username):
+    users = sqlite3.connect(USER_FILE)
+    c = users.cursor()
+    c.execute("SELECT guess FROM wordleGuesses WHERE username=?", (username,))
+    if c.fetchone() == None:
+        return "No such user"
+    else:
+        return c.fetchall()
+
+# dev stuff
+def returnEntireGuessesTable():
+    db = sqlite3.connect(USER_FILE)
+    c = db.cursor()
+    c.execute("SELECT * FROM wordleGuesses")
+    return c.fetchall()
+
+def deleteUsers():
+    db = sqlite3.connect(USER_FILE)
+    c = db.cursor()
+    c.execute("DROP table wordleGuesses")
