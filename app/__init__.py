@@ -21,7 +21,7 @@ app.secret_key = os.urandom(32)
 
 @app.route("/")# checks for session and sends user to appropriate spot
 def checkSession():
-    createTables()
+    createUsers()
     if 'username' in session:
         return redirect("/home")
     return redirect("/login")
@@ -77,7 +77,7 @@ def homesweethome():
 
 @app.route("/wordle")
 def doWordle():
-    return render_template("wordle.html", answer = "wordle")
+    return render_template("wordle.html")
 
 @app.route("/user/<int:user_id>")# viewing individual users
 
