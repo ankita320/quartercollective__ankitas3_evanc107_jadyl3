@@ -2,14 +2,18 @@
 
 
 # imports
-from flask import Flask, render_template, redirect, session, request, flash
+import os
+import sqlite3
 import json
 import urllib.request
-import sqlite3
-import os
+
+from flask import Flask, render_template, redirect, session, request, flash
 
 #custom module
 from sitedb import *
+
+
+
 
 # flask App
 app = Flask(__name__, template_folder = "templates", static_folder = "../static")
@@ -93,7 +97,8 @@ def weather_type():
       return none
     ##conditional for key
     ##try catch/conditional if city dont exist or not spell right
-    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q=London&appid={key}")
+    word = "London"
+    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={word}&appid={key}")
     json_d = url.read()
     w_info = json.loads(json_d.strip())
     weatherDescrip = w_info["weather"][0]["main"]
@@ -109,6 +114,7 @@ def weather_temp():
       return none
     ##conditional for key
     ##try catch/conditional if city dont exist or not spell right
+    
     url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q=London&appid={key}")
     json_d = url.read()
     w_info = json.loads(json_d.strip())
@@ -142,7 +148,7 @@ def NYT_api():
     except:
       print("Error: API key is missing")
       return None
-    try:
+    if len(getArticles()) == 0:
         rain_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=rain&api-key={key}")
         rainArticles = []
         json_d = rain_url.read()
@@ -156,14 +162,11 @@ def NYT_api():
                     break
                 pub_date += l
             snippet = i["snippet"]
+            createArticleEntry("rain", headline, pub_date, snippet, hearts)
+    else:   
+        main_Articles = 
+        
 
-            rainArticles.append({
-                "headline": headline,
-                "pub_date": pub_date,
-                "snippet": snippet
-            })
-    except Exception as e:
-        return (f"Unexpected error! Be patient pls.")
 
     try:
         snow_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=snow&api-key={key}")
