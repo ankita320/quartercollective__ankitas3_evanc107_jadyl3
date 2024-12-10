@@ -37,7 +37,7 @@ def login():
 
         if checkPassword(username, password):# if password is correct, given user exists
             session["username"] = username# adds user to session
-            return redirect("/home")
+            return redirect("/home1")
 
         else:# if password isnt correct
             flash("Invalid username/password", "error")
@@ -230,10 +230,11 @@ def NYT_api():
             cloudyArticles.append({
                 "headline": headline,
                 "pub_date": pub_date,
-                "snippet":snippet
+                "snippet":snippet,
+                "web_url":web_url
             })
     except Exception as e:
-        return (f"Unexpected error! Be patient pls.")
+        return (f"Unexpected key request error! Be patient pls.")
 
     if weather_type() == "Rain":
         main_articles = rainArticles

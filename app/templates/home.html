@@ -26,14 +26,14 @@
     {% for i in main_articles %}
     <tr>
         <td>
-          <p>{{i["headline"]}}</p>
+          <a href="{{ i['web_url'] }}">{{i["headline"]}}</a>
           <p>{{i["pub_date"]}}</p>
         </td>
         <td>{{i["snippet"]}}</td>
     </tr>
     {% endfor %}
   </table>
-  <p>{{w}}</p>
+  
 
 
   </body>
