@@ -73,7 +73,7 @@ def homesweethome():
 
 @app.route("/wordle")
 def doWordle():
-    return render_template("wordle.html")
+    return render_template("wordle.html", answer = "wordle")
 
 @app.route("/user/<int:user_id>")# viewing individual users
 
