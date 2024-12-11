@@ -109,9 +109,14 @@ ankitaS -- 2024-12-9 19:32
 
 jadyL -- 2024-12-19 10:01
 - wrapper function for creating tables
-- mde wordleguess table functions
+- made wordleguess table functions
 
 ankitaS -- 2024-12-10 20:01
 - connected nyt api to database
 - linked all articles to nyt articles
-- started gettiNG weather of city based on user input and db
+- started getting weather of city based on user input and db
+
+evanC -- 2024-12-10 20:57
+- custom wordle javascript guessing functions are done
+    - actual checking functions not done yet
+    - transitions not done
