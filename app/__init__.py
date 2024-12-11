@@ -146,25 +146,29 @@ def NYT_api():
     except:
       print("Error: API key is missing")
       return None
-    if len(getArticles("rain")) == 0:
-        rain_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=rain&api-key={key}")
-        rainArticles = []
-        json_d = rain_url.read()
-        info = json.loads(json_d.strip())
+    try:
+        if len(getArticles("rain")) == 0:
+            rain_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=rain&api-key={key}")
+            rainArticles = []
+            json_d = rain_url.read()
+            info = json.loads(json_d.strip())
 
-        for i in info["response"]["docs"]:
-            headline = i["headline"]["main"]
-            pub_date = ""
-            for l in i["pub_date"]:
-                if l == "T":
-                    break
-                pub_date += l
-            snippet = i["snippet"]
-            hearts = 16
-            web_url = i["web_url"]
-            createArticleEntry("rain", headline, pub_date, snippet, hearts, web_url)
-    else:   
-        main_Articles = getArticles("rain")
+            for i in info["response"]["docs"]:
+                headline = i["headline"]["main"]
+                pub_date = ""
+                for l in i["pub_date"]:
+                    if l == "T":
+                        break
+                    pub_date += l
+                snippet = i["snippet"]
+                hearts = 16
+                web_url = i["web_url"]
+                createArticleEntry("rain", headline, pub_date, snippet, hearts, web_url)
+        else:   
+            main_Articles = getArticles("rain")
+
+    except Exception as e:
+        return (f"Unexpected error! Be patient pls.")
         
 
     try:
