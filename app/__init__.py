@@ -97,13 +97,15 @@ def weather_type():
       return none
     ##conditional for key
     ##try catch/conditional if city dont exist or not spell right
-    word = "Nevada"
-    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q=phoenix&appid={key}")
-    json_d = url.read()
-    w_info = json.loads(json_d.strip())
-    weatherDescrip = w_info["weather"][0]["main"]
-    temp = w_info["main"]["temp"]
-    return weatherDescrip
+    if request.method =="POST":
+        username = request.form.get("username")
+        city = returnCity(username)
+        url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
+        json_d = url.read()
+        w_info = json.loads(json_d.strip())
+        weatherDescrip = w_info["weather"][0]["main"]
+        temp = w_info["main"]["temp"]
+        return weatherDescrip
 
 def weather_temp():
     try:
@@ -112,7 +114,11 @@ def weather_temp():
     except:
       print("Error: API key is missing")
       return none
-    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q=phoenix&appid={key}")
+
+    if request.method =="POST":
+        username = request.form.get("username")
+        city = returnCity(username)
+    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
     json_d = url.read()
     w_info = json.loads(json_d.strip())
     temp = w_info["main"]["temp"]
@@ -145,7 +151,6 @@ def NYT_api():
             key = file.read().strip()
     except:
       print("Error: API key is missing")
-      return None
     try:
         if len(getArticles("rain")) == 0:
             rain_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=rain&api-key={key}")
