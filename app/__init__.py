@@ -97,8 +97,8 @@ def weather_type():
       return none
     ##conditional for key
     ##try catch/conditional if city dont exist or not spell right
-    word = "London"
-    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={word}&appid={key}")
+    word = "Nevada"
+    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q=phoenix&appid={key}")
     json_d = url.read()
     w_info = json.loads(json_d.strip())
     weatherDescrip = w_info["weather"][0]["main"]
@@ -112,14 +112,11 @@ def weather_temp():
     except:
       print("Error: API key is missing")
       return none
-    ##conditional for key
-    ##try catch/conditional if city dont exist or not spell right
-    
-    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q=London&appid={key}")
+    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q=phoenix&appid={key}")
     json_d = url.read()
     w_info = json.loads(json_d.strip())
     temp = w_info["main"]["temp"]
-    temp = int(temp * (9/5) - 459.67)
+    temp = temp * (9/5) - 459.67
     return temp
 
 def dict_c_api():
@@ -142,13 +139,14 @@ def dict_c_api():
 
 @app.route("/home1")
 def NYT_api():
+    createArticleDB()
     try:
         with open("keys/key_NYT.txt") as file:
             key = file.read().strip()
     except:
       print("Error: API key is missing")
       return None
-    if len(getArticles()) == 0:
+    if len(getArticles("rain")) == 0:
         rain_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=rain&api-key={key}")
         rainArticles = []
         json_d = rain_url.read()
@@ -162,80 +160,82 @@ def NYT_api():
                     break
                 pub_date += l
             snippet = i["snippet"]
-            createArticleEntry("rain", headline, pub_date, snippet, hearts)
+            hearts = 16
+            web_url = i["web_url"]
+            createArticleEntry("rain", headline, pub_date, snippet, hearts, web_url)
     else:   
-        main_Articles = 
+        main_Articles = getArticles("rain")
         
 
-
     try:
-        snow_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=snow&api-key={key}")
-        snowArticles = []
-        json_d = snow_url.read()
-        info = json.loads(json_d.strip())
+        if len(getArticles("snow")) == 0:
+            snow_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=snow&api-key={key}")
+            snowArticles = []
+            json_d = snow_url.read()
+            info = json.loads(json_d.strip())
 
-        for i in info["response"]["docs"]:
-            headline = i["headline"]["main"]
-            pub_date = ""
-            for l in i["pub_date"]:
-                if l == "T":
-                    break
-                pub_date += l
-            snippet = i["snippet"]
-
-            snowArticles.append({
-                "headline": headline,
-                "pub_date": pub_date,
-                "snippet": snippet
-            })
+            for i in info["response"]["docs"]:
+                headline = i["headline"]["main"]
+                pub_date = ""
+                for l in i["pub_date"]:
+                    if l == "T":
+                        break
+                    pub_date += l
+                snippet = i["snippet"]
+                hearts = 16
+                web_url = i["web_url"]
+                createArticleEntry("snow", headline, pub_date, snippet, hearts, web_url)
+        else:   
+            snowArticles = getArticles("snow")
 
     except Exception as e:
         return (f"Unexpected error! Be patient pls.")
 
     try:
-        sunny_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=sunny&api-key={key}")
-        sunnyArticles = []
-        json_d = sunny_url.read()
-        info = json.loads(json_d.strip())
+        if len(getArticles("sunny")) == 0:
+            sunny_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=sunny&api-key={key}")
+            sunnyArticles = []
+            json_d = sunny_url.read()
+            info = json.loads(json_d.strip())
 
-        for i in info["response"]["docs"]:
-            headline = i["headline"]["main"]
-            pub_date = ""
-            for l in i["pub_date"]:
-                if l == "T":
-                    break
-                pub_date += l
-            snippet = i["snippet"]
-
-            sunnyArticles.append({
-                "headline": headline,
-                "pub_date": pub_date,
-                "snippet": snippet
-            })
+            for i in info["response"]["docs"]:
+                headline = i["headline"]["main"]
+                pub_date = ""
+                for l in i["pub_date"]:
+                    if l == "T":
+                        break
+                    pub_date += l
+                snippet = i["snippet"]
+                hearts = 16
+                web_url = i["web_url"]
+                createArticleEntry("sunny", headline, pub_date, snippet, hearts, web_url)
+        else:   
+            sunnyArticles = getArticles("sunny")
+            #print(main_Articles)
     except Exception as e:
         return (f"Unexpected error! Be patient pls.")
 
     try:
-        cloudy_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=cloudy&api-key={key}")
-        cloudyArticles = []
-        json_d = cloudy_url.read()
-        info = json.loads(json_d.strip())
+        if len(getArticles("cloudy")) == 0:
+            cloudy_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=cloudy&api-key={key}")
+            cloudyArticles = []
+            json_d = cloudy_url.read()
+            info = json.loads(json_d.strip())
 
-        for i in info["response"]["docs"]:
-            headline = i["headline"]["main"]
-            pub_date = ""
-            for l in i["pub_date"]:
-                if l == "T":
-                    break
-                pub_date += l
-            snippet = i["snippet"]
+            for i in info["response"]["docs"]:
+                headline = i["headline"]["main"]
+                pub_date = ""
+                for l in i["pub_date"]:
+                    if l == "T":
+                        break
+                    pub_date += l
+                snippet = i["snippet"]
+                hearts = 16
+                web_url = i["web_url"]
+                createArticleEntry("cloudy", headline, pub_date, snippet, hearts, web_url)
+        else:   
+            cloudyArticles = getArticles("cloudy")
 
-            cloudyArticles.append({
-                "headline": headline,
-                "pub_date": pub_date,
-                "snippet":snippet,
-                "web_url":web_url
-            })
     except Exception as e:
         return (f"Unexpected key request error! Be patient pls.")
 

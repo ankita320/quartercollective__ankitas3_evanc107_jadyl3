@@ -151,17 +151,17 @@ def deleteWebinfo():
 #ARTICLE DATABASE ----------------------------------------------------------------------------------------
 # create article entries
 def createArticleDB():
-    db = sqlite3.connect(USER_FILE)
-    c = webinfo.cursor()
-    command = "CREATE TABLE IF NOT EXISTS articles (weathercondition TEXT, articlename TEXT, author TEXT, title TEXT, date TEXT, synopsis TEXT, hearts INTEGER"
+    articles = sqlite3.connect(USER_FILE)
+    c = articles.cursor()
+    command = "CREATE TABLE IF NOT EXISTS articles (weathercondition TEXT, articlename TEXT, author TEXT, date TEXT, synopsis TEXT, hearts INTEGER, url TEXT)"
     c.execute(command)
-    db.commit()
+    articles.commit()
 
-def createArticleEntry(weathercondition, articlename, author, title, date, synopsis, hearts):
-    webinfo = sqlite3.connect(USER_FILE)
-    c = webinfo.cursor()
-    c.execute("INSERT INTO articles (weathercondition, articlename, author, title, synopsis, hearts) VALUES (?, ?, ?, ?, ?, ?, ?)", (weathercondition, articlename, author, title, date, synopsis, hearts))
-    webinfo.commit()
+def createArticleEntry(weathercondition, articlename, date, synopsis, hearts, url):
+    articles = sqlite3.connect(USER_FILE)
+    c = articles.cursor()
+    c.execute("INSERT INTO articles (weathercondition, articlename, date, synopsis, hearts, url) VALUES (?, ?, ?, ?, ?, ?)", (weathercondition, articlename, date, synopsis, hearts, url))
+    articles.commit()
 
 def updateHearts(weathercondition, articlename, change):
     users = sqlite3.connect(USER_FILE)
