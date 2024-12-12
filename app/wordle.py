@@ -42,9 +42,20 @@ def addGuess(str):
     global guessPos
     queue = []
     for x in range(len(str)):
-        queue.append(str[x].capitalize())
-        if (queue[x] in ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']) == False:
-            queue.remove(queue[x])
+        queue.append(str[x])
+    
+    tempq = []
+    for x in range(len(queue)):
+        if (queue[x] in ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']):
+            tempq.append(queue[x])
+    queue = tempq
+    
+    for x in range(len(queue)):
+        queue[x] = queue[x].capitalize()
+            
+    if len(queue) > letterPerWord:
+        queue = queue[0:letterPerWord]
+        
     queue = queue[0:letterPerWord-guessPos]
     for x in range(len(queue)):
         currGuess[guessPos] = queue[x]
