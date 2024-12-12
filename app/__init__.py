@@ -26,6 +26,25 @@ def checkSession():
         return redirect("/home")
     return redirect("/login")
 
+
+def dict_c_api():
+    try:
+        with open("keys/key_merriam_webster_c.txt") as file:
+            key = file.read().strip()
+    except:
+        return "Key error!!!!!!"
+
+    word = "battle"
+    url = urllib.request.urlopen(f"https://dictionaryapi.com/api/v3/references/collegiate/json/{word}?key={key}")
+    json_d = url.read()
+    try:
+        info = json.loads(json_d.strip())
+    except:
+        return {"error!!!!!"}
+    print("info")
+    word_def = info[0]["shortdef"][0]
+    return word_def
+
 @app.route("/login", methods=["GET", "POST"])# will code registering and logging forms later
 def login():
     if 'username' in session:
@@ -46,8 +65,9 @@ def login():
         else:# if password isnt correct
             flash("Invalid username/password", "error")
             return redirect("/login")
+        w = dict_c_api()
 
-    return render_template("login.html")# if GET request, just renders login page
+    return render_template("login.html", w=w)# if GET request, just renders login page
 
 @app.route("/register", methods=["GET", "POST"])# will code registering and logging forms later
 def register():
@@ -97,15 +117,13 @@ def weather_type():
       return none
     ##conditional for key
     ##try catch/conditional if city dont exist or not spell right
-    if request.method =="POST":
-        username = request.form.get("username")
-        city = returnCity(username)
-        url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
-        json_d = url.read()
-        w_info = json.loads(json_d.strip())
-        weatherDescrip = w_info["weather"][0]["main"]
-        temp = w_info["main"]["temp"]
-        return weatherDescrip
+    city = "london"
+    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
+    json_d = url.read()
+    w_info = json.loads(json_d.strip())
+    weatherDescrip = w_info["weather"][0]["main"]
+    temp = w_info["main"]["temp"]
+    return weatherDescrip
 
 def weather_temp():
     try:
@@ -115,9 +133,7 @@ def weather_temp():
       print("Error: API key is missing")
       return none
 
-    if request.method =="POST":
-        username = request.form.get("username")
-        city = returnCity(username)
+    city = "london"
     url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
     json_d = url.read()
     w_info = json.loads(json_d.strip())
@@ -125,23 +141,6 @@ def weather_temp():
     temp = temp * (9/5) - 459.67
     return temp
 
-def dict_c_api():
-    try:
-        with open("keys/key_merriam_webster_c.txt") as file:
-            key = file.read().strip()
-    except:
-        return "Key error!!!!!!"
-
-    word = "battle"
-    url = urllib.request.urlopen(f"https://dictionaryapi.com/api/v3/references/collegiate/json/{word}?key={key}")
-    json_d = url.read()
-    try:
-        info = json.loads(json_d.strip())
-    except:
-        return {"error!!!!!"}
-    print("info")
-    word_def = info[0]["shortdef"][0]
-    return word_def
 
 @app.route("/home1")
 def NYT_api():

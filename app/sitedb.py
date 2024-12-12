@@ -160,7 +160,7 @@ def deleteWebinfo():
 def createArticleDB():
     articles = sqlite3.connect(USER_FILE)
     c = articles.cursor()
-    command = "CREATE TABLE IF NOT EXISTS articles (weathercondition TEXT, articlename TEXT, author TEXT, date TEXT, synopsis TEXT, hearts INTEGER, url TEXT)"
+    command = "CREATE TABLE IF NOT EXISTS articles (weathercondition TEXT, articlename TEXT, date TEXT, synopsis TEXT, hearts INTEGER, url TEXT)"
     c.execute(command)
     articles.commit()
 
