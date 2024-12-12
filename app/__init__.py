@@ -97,15 +97,13 @@ def weather_type():
       return none
     ##conditional for key
     ##try catch/conditional if city dont exist or not spell right
-    if request.method =="POST":
-        username = request.form.get("username")
-        city = returnCity(username)
-        url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
-        json_d = url.read()
-        w_info = json.loads(json_d.strip())
-        weatherDescrip = w_info["weather"][0]["main"]
-        temp = w_info["main"]["temp"]
-        return weatherDescrip
+    city = "london"
+    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
+    json_d = url.read()
+    w_info = json.loads(json_d.strip())
+    weatherDescrip = w_info["weather"][0]["main"]
+    temp = w_info["main"]["temp"]
+    return weatherDescrip
 
 def weather_temp():
     try:
@@ -115,9 +113,7 @@ def weather_temp():
       print("Error: API key is missing")
       return none
 
-    if request.method =="POST":
-        username = request.form.get("username")
-        city = returnCity(username)
+    city = "london"
     url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
     json_d = url.read()
     w_info = json.loads(json_d.strip())
