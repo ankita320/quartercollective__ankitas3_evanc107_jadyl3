@@ -120,3 +120,7 @@ evanC -- 2024-12-10 20:57
 - custom wordle javascript guessing functions are done
     - actual checking functions not done yet
     - transitions not done
+
+evanC -- 2024-12-11 20:38
+- wordle javascript gone
+- new python wordle file has been finished with winning, guess correction, and everything the OG wordle file had (not linked to anything yet)
