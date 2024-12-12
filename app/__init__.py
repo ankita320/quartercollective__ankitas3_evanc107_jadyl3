@@ -21,7 +21,7 @@ app.secret_key = os.urandom(32)
 
 @app.route("/")# checks for session and sends user to appropriate spot
 def checkSession():
-    createUsers()
+    createTables()
     if 'username' in session:
         return redirect("/home")
     return redirect("/login")
@@ -169,12 +169,12 @@ def NYT_api():
                 hearts = 16
                 web_url = i["web_url"]
                 createArticleEntry("rain", headline, pub_date, snippet, hearts, web_url)
-        else:   
+        else:
             main_Articles = getArticles("rain")
 
     except Exception as e:
         return (f"Unexpected error! Be patient pls.")
-        
+
 
     try:
         if len(getArticles("snow")) == 0:
@@ -194,7 +194,7 @@ def NYT_api():
                 hearts = 16
                 web_url = i["web_url"]
                 createArticleEntry("snow", headline, pub_date, snippet, hearts, web_url)
-        else:   
+        else:
             snowArticles = getArticles("snow")
 
     except Exception as e:
@@ -218,7 +218,7 @@ def NYT_api():
                 hearts = 16
                 web_url = i["web_url"]
                 createArticleEntry("sunny", headline, pub_date, snippet, hearts, web_url)
-        else:   
+        else:
             sunnyArticles = getArticles("sunny")
             #print(main_Articles)
     except Exception as e:
@@ -242,7 +242,7 @@ def NYT_api():
                 hearts = 16
                 web_url = i["web_url"]
                 createArticleEntry("cloudy", headline, pub_date, snippet, hearts, web_url)
-        else:   
+        else:
             cloudyArticles = getArticles("cloudy")
 
     except Exception as e:
