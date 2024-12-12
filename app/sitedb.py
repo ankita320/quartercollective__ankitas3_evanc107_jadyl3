@@ -257,7 +257,25 @@ def returnNote(username, articlename):
     if c.fetchone() == None:
         return "No such note"
     else:
-        return c.fetchall()
+        return list(c.fetchall())
+
+def returnNotes(articlename):
+    users = sqlite3.connect(USER_FILE)
+    c = users.cursor()
+    c.execute("SELECT date, note FROM notes WHERE articlename=?", (articlename, ))
+    if c.fetchone() == None:
+        return "No such notes"
+    else:
+        return list(c.fetchall())
+
+def returnNotesNum(articlename):
+    users = sqlite3.connect(USER_FILE)
+    c = users.cursor()
+    c.execute("SELECT date, note FROM notes WHERE articlename=?", (articlename, ))
+    if c.fetchone() == None:
+        return "No such note"
+    else:
+        return list(c.fetchall())
 # dev stuff
 def returnEntireNotesTable():
     db = sqlite3.connect(USER_FILE)
