@@ -6,6 +6,13 @@ import sqlite3
 
 USER_FILE="databse.db"
 
+def createTables():
+    createUsers()
+    createArticleDB()
+    createWebsiteInfo()
+    createWordleGuessTable()
+    createNotesTable()
+
 # USER DATABASE FUNCTIONS------------------------------------------------------------------------------------------------
 # edit data
 def createUsers():
@@ -195,3 +202,69 @@ def deleteArticles():
     db = sqlite3.connect(USER_FILE)
     c = db.cursor()
     c.execute("DROP table articles")
+
+# WordleGuessTable -------------------------------------------------------------------------------------------------
+# create and edit table
+def createWordleGuessTable():
+    users = sqlite3.connect(USER_FILE)
+    c = users.cursor()
+    command = "CREATE TABLE IF NOT EXISTS wordleGuesses (username TEXT, date TEXT, guess Text)"
+    c.execute(command)
+    users.commit()
+def addGuess(username, date, guess):
+    users = sqlite3.connect(USER_FILE)
+    c = users.cursor()
+    c.execute("INSERT INTO wordleGuesses (username, date, guess) VALUES (?, ?, ?)", (username, date, guess))
+# access information
+def returnGuesses(username):
+    users = sqlite3.connect(USER_FILE)
+    c = users.cursor()
+    c.execute("SELECT guess FROM wordleGuesses WHERE username=?", (username,))
+    if c.fetchone() == None:
+        return "No such user"
+    else:
+        return c.fetchall()
+# dev stuff
+def returnEntireGuessesTable():
+    db = sqlite3.connect(USER_FILE)
+    c = db.cursor()
+    c.execute("SELECT * FROM wordleGuesses")
+    return c.fetchall()
+def deleteGuesses():
+    db = sqlite3.connect(USER_FILE)
+    c = db.cursor()
+    c.execute("DROP table wordleGuesses")
+
+# NotesTable -------------------------------------------------------------------------------------------------
+# create and edit table
+def createNotesTable():
+    users = sqlite3.connect(USER_FILE)
+    c = users.cursor()
+    command = "CREATE TABLE IF NOT EXISTS notes (username TEXT, articlename TEXT, date TEXT, note Text)"
+    c.execute(command)
+    users.commit()
+
+def addNote(username, articlename, date, note):
+    users = sqlite3.connect(USER_FILE)
+    c = users.cursor()
+    c.execute("INSERT INTO notes (username, articlename, date, note) VALUES (?, ?, ?, ?)", (username, articlename, date, note))
+
+# access information
+def returnNote(username, articlename):
+    users = sqlite3.connect(USER_FILE)
+    c = users.cursor()
+    c.execute("SELECT date, note FROM notes WHERE username=? AND articlename=?", (username, articlename))
+    if c.fetchone() == None:
+        return "No such note"
+    else:
+        return c.fetchall()
+# dev stuff
+def returnEntireNotesTable():
+    db = sqlite3.connect(USER_FILE)
+    c = db.cursor()
+    c.execute("SELECT * FROM notes")
+    return c.fetchall()
+def deleteNotes():
+    db = sqlite3.connect(USER_FILE)
+    c = db.cursor()
+    c.execute("DROP table notes")

@@ -107,7 +107,7 @@ evanC -- 2024-12-9 18:21
 ankitaS -- 2024-12-9 19:32
 - put url for articles
 
-jadyL -- 2024-12-9 10:01
+jadyL -- 2024-12-10 10:01
 - wrapper function for creating tables
 - made wordleguess table functions
 
@@ -125,5 +125,14 @@ evanC -- 2024-12-11 20:38
 - wordle javascript gone
 - new python wordle file has been finished with winning, guess correction, and everything the OG wordle file had (not linked to anything yet)
 
+<<<<<<< HEAD
+jadyL -- 2024-12-11 11:05
+- mocked up a website design
+
+jadyL -- 2024-12-12 10:53
+- recommit wordle guess table functions
+- half done notes functions
+=======
 ankitaS -- 2024-12-11 10:32
 - started city function
+>>>>>>> 62f736652d0a79c61d56b33294bd3bf72ce33f14
