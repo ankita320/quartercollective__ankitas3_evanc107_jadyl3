@@ -287,8 +287,5 @@ def returnEntireNotesTable():
 def deleteNotes():
     db = sqlite3.connect(USER_FILE)
     c = db.cursor()
-<<<<<<< HEAD
     c.execute("DROP table notes")
-=======
-    c.execute("DROP table notes")
->>>>>>> 631325d3bdc581772019f9831db8b3ac6cb7f866
+    
