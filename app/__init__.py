@@ -97,12 +97,11 @@ def weather_type():
       return none
     ##conditional for key
     ##try catch/conditional if city dont exist or not spell right
-    word = "Nevada"
-    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q=phoenix&appid={key}")
+    city="london"
+    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
     json_d = url.read()
     w_info = json.loads(json_d.strip())
     weatherDescrip = w_info["weather"][0]["main"]
-    temp = w_info["main"]["temp"]
     return weatherDescrip
 
 def weather_temp():
@@ -112,11 +111,12 @@ def weather_temp():
     except:
       print("Error: API key is missing")
       return none
-    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q=phoenix&appid={key}")
+    city="london"
+    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
     json_d = url.read()
     w_info = json.loads(json_d.strip())
     temp = w_info["main"]["temp"]
-    temp = temp * (9/5) - 459.67
+    temp = temp * (9/5) - 459.67 
     return temp
 
 def dict_c_api():
@@ -125,8 +125,8 @@ def dict_c_api():
             key = file.read().strip()
     except:
         return "Key error!!!!!!"
-
-    word = "battle"
+    word="lively"
+    #city = returnCity(username)
     url = urllib.request.urlopen(f"https://dictionaryapi.com/api/v3/references/collegiate/json/{word}?key={key}")
     json_d = url.read()
     try:
@@ -134,18 +134,32 @@ def dict_c_api():
     except:
         return {"error!!!!!"}
     print("info")
-    word_def = info[0]["shortdef"][0]
-    return word_def
+    try:
+        word_def = info[0]["shortdef"][0]
+        return word_def
+    except:
+        return "That word is not in our dictionary"
 
 @app.route("/home1")
 def NYT_api():
     createArticleDB()
+    if weather_type() == "Rain":
+        weather_T = "rainy"
+    elif weather_type() == "Snow":
+        weather_T = "snowy"
+    elif weather_type() == "Clear":
+        weather_T = "sunny"
+    elif weather_type() == "Clouds":
+        weather_T = "cloudy"
+    else:
+        weather_T = "hazy"
+    w = ""
+    tmp = 0
     try:
         with open("keys/key_NYT.txt") as file:
             key = file.read().strip()
     except:
       print("Error: API key is missing")
-      return None
     if len(getArticles("rain")) == 0:
         rain_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=rain&api-key={key}")
         rainArticles = []
@@ -164,7 +178,7 @@ def NYT_api():
             web_url = i["web_url"]
             createArticleEntry("rain", headline, pub_date, snippet, hearts, web_url)
     else:   
-        main_Articles = getArticles("rain")
+        rain_Articles = getArticles("rain")
         
 
     try:
@@ -235,25 +249,47 @@ def NYT_api():
                 createArticleEntry("cloudy", headline, pub_date, snippet, hearts, web_url)
         else:   
             cloudyArticles = getArticles("cloudy")
+        
+    except Exception as e:
+        return (f"Unexpected error! Be patient pls.")
+
+    try:
+        if len(getArticles("hazy")) == 0:
+            hazy_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=hazy&api-key={key}")
+            hazyArticles = []
+            json_d = hazy_url.read()
+            info = json.loads(json_d.strip())
+
+            for i in info["response"]["docs"]:
+                headline = i["headline"]["main"]
+                pub_date = ""
+                for l in i["pub_date"]:
+                    if l == "T":
+                        break
+                    pub_date += l
+                snippet = i["snippet"]
+                hearts = 16
+                web_url = i["web_url"]
+                createArticleEntry("hazy", headline, pub_date, snippet, hearts, web_url)
+        else:   
+            hazyArticles = getArticles("hazy")
 
     except Exception as e:
-        return (f"Unexpected key request error! Be patient pls.")
+        return (f"Unexpected error! Be patient pls.")
 
     if weather_type() == "Rain":
         main_articles = rainArticles
-        weather_T = "rainy"
     elif weather_type() == "Snow":
         main_articles = snowArticles
-        weather_T = "snowy"
     elif weather_type() == "Clear":
         main_articles = sunnyArticles
-        weather_T = "sunny"
     elif weather_type() == "Clouds":
         main_articles = cloudyArticles
-        weather_T = "cloudy"
-
+    else:
+        main_articles = hazyArticles
     w = dict_c_api()
     tmp = weather_temp()
+
     return render_template("home.html", main_articles=main_articles, weather_T=weather_T, tmp = tmp, w=w)
 
 
