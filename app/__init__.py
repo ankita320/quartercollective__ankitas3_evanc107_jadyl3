@@ -124,18 +124,18 @@ def dict_c_api():
         with open("keys/key_merriam_webster_c.txt") as file:
             key = file.read().strip()
     except:
-        return "Key error!!!!!!"
-    word="lively"
+        return "Key error!!!!!! api doesnt work"
+    word="potato"
     #city = returnCity(username)
     url = urllib.request.urlopen(f"https://dictionaryapi.com/api/v3/references/collegiate/json/{word}?key={key}")
     json_d = url.read()
     try:
         info = json.loads(json_d.strip())
     except:
-        return {"error!!!!!"}
+        return {"error!!!!!!!!!!!!!1!!!"}
     print("info")
     try:
-        word_def = info[0]["shortdef"][0]
+        word_def = info[1]["shortdef"][0]
         return word_def
     except:
         return "That word is not in our dictionary"
