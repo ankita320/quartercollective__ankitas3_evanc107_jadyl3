@@ -15,12 +15,14 @@ def createTables():
 
 # USER DATABASE FUNCTIONS------------------------------------------------------------------------------------------------
 # edit data
+
 def createUsers():
     users = sqlite3.connect(USER_FILE)
     c = users.cursor()
     command = "CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT, city TEXT, wordle INTEGER, streak INTEGER)"
     c.execute(command)
     users.commit()
+
 
 def addUser(username, password, city):
     users = sqlite3.connect(USER_FILE)
@@ -155,7 +157,7 @@ def deleteWebinfo():
     c = db.cursor()
     c.execute("DROP table webinfo")
 
-#ARTICLE DATABASE ----------------------------------------------------------------------------------------
+#ARTICLE DATABASE ------------------------------------------------------------------------------------
 # create article entries
 def createArticleDB():
     articles = sqlite3.connect(USER_FILE)
