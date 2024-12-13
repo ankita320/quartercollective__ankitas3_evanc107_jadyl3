@@ -21,29 +21,10 @@ app.secret_key = os.urandom(32)
 
 @app.route("/")# checks for session and sends user to appropriate spot
 def checkSession():
-    createTables()
+    createUsers()
     if 'username' in session:
         return redirect("/home")
     return redirect("/login")
-
-
-def dict_c_api():
-    try:
-        with open("keys/key_merriam_webster_c.txt") as file:
-            key = file.read().strip()
-    except:
-        return "Key error!!!!!!"
-
-    word = "battle"
-    url = urllib.request.urlopen(f"https://dictionaryapi.com/api/v3/references/collegiate/json/{word}?key={key}")
-    json_d = url.read()
-    try:
-        info = json.loads(json_d.strip())
-    except:
-        return {"error!!!!!"}
-    print("info")
-    word_def = info[0]["shortdef"][0]
-    return word_def
 
 @app.route("/login", methods=["GET", "POST"])# will code registering and logging forms later
 def login():
@@ -65,9 +46,8 @@ def login():
         else:# if password isnt correct
             flash("Invalid username/password", "error")
             return redirect("/login")
-        w = dict_c_api()
 
-    return render_template("login.html", w=w)# if GET request, just renders login page
+    return render_template("login.html")# if GET request, just renders login page
 
 @app.route("/register", methods=["GET", "POST"])# will code registering and logging forms later
 def register():
@@ -117,8 +97,8 @@ def weather_type():
       return none
     ##conditional for key
     ##try catch/conditional if city dont exist or not spell right
-    city = "london"
-    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
+    word = "Nevada"
+    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q=phoenix&appid={key}")
     json_d = url.read()
     w_info = json.loads(json_d.strip())
     weatherDescrip = w_info["weather"][0]["main"]
@@ -132,15 +112,30 @@ def weather_temp():
     except:
       print("Error: API key is missing")
       return none
-
-    city = "london"
-    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
+    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q=phoenix&appid={key}")
     json_d = url.read()
     w_info = json.loads(json_d.strip())
     temp = w_info["main"]["temp"]
     temp = temp * (9/5) - 459.67
     return temp
 
+def dict_c_api():
+    try:
+        with open("keys/key_merriam_webster_c.txt") as file:
+            key = file.read().strip()
+    except:
+        return "Key error!!!!!!"
+
+    word = "battle"
+    url = urllib.request.urlopen(f"https://dictionaryapi.com/api/v3/references/collegiate/json/{word}?key={key}")
+    json_d = url.read()
+    try:
+        info = json.loads(json_d.strip())
+    except:
+        return {"error!!!!!"}
+    print("info")
+    word_def = info[0]["shortdef"][0]
+    return word_def
 
 @app.route("/home1")
 def NYT_api():
@@ -150,30 +145,27 @@ def NYT_api():
             key = file.read().strip()
     except:
       print("Error: API key is missing")
-    try:
-        if len(getArticles("rain")) == 0:
-            rain_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=rain&api-key={key}")
-            rainArticles = []
-            json_d = rain_url.read()
-            info = json.loads(json_d.strip())
+      return None
+    if len(getArticles("rain")) == 0:
+        rain_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=rain&api-key={key}")
+        rainArticles = []
+        json_d = rain_url.read()
+        info = json.loads(json_d.strip())
 
-            for i in info["response"]["docs"]:
-                headline = i["headline"]["main"]
-                pub_date = ""
-                for l in i["pub_date"]:
-                    if l == "T":
-                        break
-                    pub_date += l
-                snippet = i["snippet"]
-                hearts = 16
-                web_url = i["web_url"]
-                createArticleEntry("rain", headline, pub_date, snippet, hearts, web_url)
-        else:
-            main_Articles = getArticles("rain")
-
-    except Exception as e:
-        return (f"Unexpected error! Be patient pls.")
-
+        for i in info["response"]["docs"]:
+            headline = i["headline"]["main"]
+            pub_date = ""
+            for l in i["pub_date"]:
+                if l == "T":
+                    break
+                pub_date += l
+            snippet = i["snippet"]
+            hearts = 16
+            web_url = i["web_url"]
+            createArticleEntry("rain", headline, pub_date, snippet, hearts, web_url)
+    else:   
+        main_Articles = getArticles("rain")
+        
 
     try:
         if len(getArticles("snow")) == 0:
@@ -193,7 +185,7 @@ def NYT_api():
                 hearts = 16
                 web_url = i["web_url"]
                 createArticleEntry("snow", headline, pub_date, snippet, hearts, web_url)
-        else:
+        else:   
             snowArticles = getArticles("snow")
 
     except Exception as e:
@@ -217,7 +209,7 @@ def NYT_api():
                 hearts = 16
                 web_url = i["web_url"]
                 createArticleEntry("sunny", headline, pub_date, snippet, hearts, web_url)
-        else:
+        else:   
             sunnyArticles = getArticles("sunny")
             #print(main_Articles)
     except Exception as e:
@@ -241,7 +233,7 @@ def NYT_api():
                 hearts = 16
                 web_url = i["web_url"]
                 createArticleEntry("cloudy", headline, pub_date, snippet, hearts, web_url)
-        else:
+        else:   
             cloudyArticles = getArticles("cloudy")
 
     except Exception as e:
