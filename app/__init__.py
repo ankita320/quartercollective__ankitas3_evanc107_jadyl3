@@ -92,7 +92,6 @@ def weather_type():
     try:
         with open("/keys/key_openweathermap.txt") as file:
             key = file.read().strip()
-            # key = '19463dcd757a1da8968c40af1c42dfd1'
     except FileNotFoundError:
         print("Error: API key file not found")
         return None
@@ -160,7 +159,6 @@ def NYT_api():
     try:
         with open("keys/key_NYT.txt") as file:
             key = file.read().strip()
-            # LSAtMXzQ7AkqoSHVXfNoHpX9JuGOBtUi
 
     except:
       print("Error: API key is missing")
