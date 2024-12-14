@@ -80,8 +80,14 @@ def doWordle():
     return render_template("wordle.html")
 
 @app.route("/user/<int:user_id>")# viewing individual users
+def profile(user_id):
+    return render_template('user.html')
+
 
 @app.route("/article/<int:post_id>")# viewing news posts
+def view_article(post_id):
+    return render_template('post.html')
+
 
 @app.route("/logout")
 def removeSession():
