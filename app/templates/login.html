@@ -8,6 +8,8 @@
   <body>
     <div>
       <h3>QuarterCollective</h3>
+      {{ get_flashed_messages()[0] if get_flashed_messages() else '' }}
+
       <form action="/login" method="POST">
         <div class="form-group">
           <label for="username">Username: </label>
