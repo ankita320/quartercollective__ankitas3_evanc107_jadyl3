@@ -131,7 +131,7 @@ def dict_c_api():
             key = file.read().strip()
     except:
         return "Key error!!!!!! api doesnt work"
-    word="school"
+    word="aspect"
     #city = returnCity(username)
     url = urllib.request.urlopen(f"https://dictionaryapi.com/api/v3/references/collegiate/json/{word}?key={key}")
     json_d = url.read()
@@ -142,13 +142,17 @@ def dict_c_api():
     print("info")
     try:
         word_def = info[0]["def"][0]["sseq"][0][0][1]["dt"][0][1]
-        return word_def
+        return word_def[4:]
     except:
         try:
-            word_def = info[0]["def"][0]["sseq"][0][0][1]["sense"]["dt"][1]
-            return word_def
+            word_def = info[0]["def"][0]["sseq"][0][0][1]["sense"]["dt"][0][1]
+            return word_def[4:]
         except:
-            return "no"
+            try:
+                word_def = info[0]["shortdef"][0]
+                return word_def[4:]
+            except:
+                return "word not found"
 
 
 @app.route("/home1")
