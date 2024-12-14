@@ -11,7 +11,7 @@ from flask import Flask, render_template, redirect, session, request, flash
 
 #custom module
 from sitedb import *
-
+from wordle import *
 
 
 
@@ -80,8 +80,14 @@ def doWordle():
     return render_template("wordle.html")
 
 @app.route("/user/<int:user_id>")# viewing individual users
+def profile(user_id):
+    return render_template('user.html')
+
 
 @app.route("/article/<int:post_id>")# viewing news posts
+def view_article(post_id):
+    return render_template('post.html')
+
 
 @app.route("/logout")
 def removeSession():
@@ -90,11 +96,11 @@ def removeSession():
 
 def weather_type():
     try:
-        with open("keys/key_openweathermap.txt") as file:
-          key = file.read().strip()
-    except:
-      print("Error: API key is missing")
-      return none
+        with open("/keys/key_openweathermap.txt") as file:
+            key = file.read().strip()
+    except FileNotFoundError:
+        print("Error: API key file not found")
+        return None
     ##conditional for key
     ##try catch/conditional if city dont exist or not spell right
     city="london"
@@ -110,13 +116,13 @@ def weather_temp():
           key = file.read().strip()
     except:
       print("Error: API key is missing")
-      return none
+      return None
     city="london"
     url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
     json_d = url.read()
     w_info = json.loads(json_d.strip())
     temp = w_info["main"]["temp"]
-    temp = temp * (9/5) - 459.67 
+    temp = temp * (9/5) - 459.67
     return temp
 
 def dict_c_api():
@@ -148,6 +154,7 @@ def dict_c_api():
 @app.route("/home1")
 def NYT_api():
     createArticleDB()
+    key = None
     if weather_type() == "Rain":
         weather_T = "rainy"
     elif weather_type() == "Snow":
@@ -163,6 +170,7 @@ def NYT_api():
     try:
         with open("keys/key_NYT.txt") as file:
             key = file.read().strip()
+
     except:
       print("Error: API key is missing")
     if len(getArticles("rain")) == 0:
@@ -182,13 +190,13 @@ def NYT_api():
             hearts = 16
             web_url = i["web_url"]
             createArticleEntry("rain", headline, pub_date, snippet, hearts, web_url)
-    else:   
+    else:
         rain_Articles = getArticles("rain")
-        
+
 
     try:
         if len(getArticles("snow")) == 0:
-            snow_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=snow&api-key={key}")
+            snow_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=snow&api-key="+key)
             snowArticles = []
             json_d = snow_url.read()
             info = json.loads(json_d.strip())
@@ -204,7 +212,7 @@ def NYT_api():
                 hearts = 16
                 web_url = i["web_url"]
                 createArticleEntry("snow", headline, pub_date, snippet, hearts, web_url)
-        else:   
+        else:
             snowArticles = getArticles("snow")
 
     except Exception as e:
@@ -228,7 +236,7 @@ def NYT_api():
                 hearts = 16
                 web_url = i["web_url"]
                 createArticleEntry("sunny", headline, pub_date, snippet, hearts, web_url)
-        else:   
+        else:
             sunnyArticles = getArticles("sunny")
             #print(main_Articles)
     except Exception as e:
@@ -252,9 +260,9 @@ def NYT_api():
                 hearts = 16
                 web_url = i["web_url"]
                 createArticleEntry("cloudy", headline, pub_date, snippet, hearts, web_url)
-        else:   
+        else:
             cloudyArticles = getArticles("cloudy")
-        
+
     except Exception as e:
         return (f"Unexpected error! Be patient pls.")
 
@@ -276,7 +284,7 @@ def NYT_api():
                 hearts = 16
                 web_url = i["web_url"]
                 createArticleEntry("hazy", headline, pub_date, snippet, hearts, web_url)
-        else:   
+        else:
             hazyArticles = getArticles("hazy")
 
     except Exception as e:
@@ -318,4 +326,3 @@ def NYT_api():
 if __name__ == "__main__":
     app.debug = True
     app.run()
-
