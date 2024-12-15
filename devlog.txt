@@ -140,4 +140,7 @@ ankitaS -- 2024-12-12 20:32
 - added new weather condition "hazy"
 - added word definition to wprdle page
 
-
+evanC -- 2024-12-14 20:21
+- fixed huge bug with try/catches and key reading 
+- made user profile page
+- started linking wordle page to py file and dict api
