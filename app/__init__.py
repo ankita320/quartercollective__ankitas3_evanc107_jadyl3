@@ -6,13 +6,13 @@ import os
 import sqlite3
 import json
 import urllib.request
+import datetime
 
 from flask import Flask, render_template, redirect, session, request, flash
 
 #custom module
 from sitedb import *
 from wordle import *
-
 
 
 # flask App
@@ -122,8 +122,36 @@ def weather_temp():
     json_d = url.read()
     w_info = json.loads(json_d.strip())
     temp = w_info["main"]["temp"]
-    temp = temp * (9/5) - 459.67
+    temp = int(temp * (9/5) - 459.67)
     return temp
+
+def getDailyWord():
+    with open("wordbank.txt") as file:
+        lines = file.readlines()
+    for i in lines:
+        i = i.strip()
+    n = int(datetime.datetime.now().strftime("%S"))
+    print(n)
+    # word = ""
+    # for i in n:
+    #     word += i
+    for num in range(0,len(lines)):
+        if (n == 0):
+            f = n
+            print(n)
+            fin = lines[num]
+            num+=1
+            n = int(datetime.datetime.now().strftime("%S"))
+            if (n > f):
+                return lines[num]
+            else:
+                num +=0
+        else:
+            word = lines[num]
+            print(num)
+            num+=1
+            return lines[num]
+
 
 def dict_c_api():
     try:
@@ -131,29 +159,46 @@ def dict_c_api():
             key = file.read().strip()
     except:
         return "Key error!!!!!! api doesnt work"
-    word="aspect"
-    #city = returnCity(username)
+    word=getDailyWord().strip()
+    print(word)
     url = urllib.request.urlopen(f"https://dictionaryapi.com/api/v3/references/collegiate/json/{word}?key={key}")
     json_d = url.read()
     try:
         info = json.loads(json_d.strip())
     except:
         return {"error!!!!!!!!!!!!!1!!!"}
-    print("info")
     try:
-        word_def = info[0]["def"][0]["sseq"][0][0][1]["dt"][0][1]
-        return word_def[4:]
+        word_def = info[0]["def"][0]["sseq"][1][0][1]["dt"][0][1]
+        if "|" in word_def:
+            word_def = info[0]["def"][0]["sseq"][0][0][1]["dt"][0][1]
+        word_def = word_def.replace("sx", " ")
+        word_def=word_def.replace("{bc}", " ")
+        word_def=word_def.replace("{it}", " ")
+        word_def=word_def.replace("{/it}", " ")
+        return word_def
     except:
         try:
-            word_def = info[0]["def"][0]["sseq"][0][0][1]["sense"]["dt"][0][1]
-            return word_def[4:]
+            word_def = info[0]["def"][0]["sseq"][0][0][1]["dt"][0][1]
+            if "|" in word_def:
+                word_def = info[0]["def"][0]["sseq"][1][0][1]["dt"][0][1]
+            word_def=word_def.replace("sx", " ")
+            word_def=word_def.replace("{it}", " ")
+            word_def=word_def.replace("{/it}", " ")
+            return word_def
         except:
             try:
-                word_def = info[0]["shortdef"][0]
-                return word_def[4:]
+                word_def = info[0]["def"][0]["sseq"][0][0][1]["sense"]["dt"][0][1]
+                word_def=word_def.replace("sx", " ")
+                word_def=word_def.replace("{bc}", " ")
+                return word_def
             except:
-                return "word not found"
-
+                try:
+                    word_def = info[0]["shortdef"][0]
+                    word_def=word_def.replace("sx", " ")
+                    word_def=word_def.replace("{bc}", " ")
+                    return word_def
+                except:
+                    return "word not found"
 
 @app.route("/home1")
 def NYT_api():
