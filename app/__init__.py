@@ -72,7 +72,7 @@ def register():
 
 @app.route("/wordle")
 def doWordle():
-    return render_template("wordle.html")
+    return render_template("wordle.html", word = getDailyWord())
 
 @app.route('/user')
 def selfProfile():
@@ -120,7 +120,7 @@ def removeSession():
 
 def weather_type():
     try:
-        with open("/keys/key_openweathermap.txt") as file:
+        with open("app/keys/key_openweathermap.txt") as file:
             key = file.read().strip()
     except FileNotFoundError:
         print("Error: API key file not found")
@@ -136,7 +136,7 @@ def weather_type():
 
 def weather_temp():
     try:
-        with open("keys/key_openweathermap.txt") as file:
+        with open("app/keys/key_openweathermap.txt") as file:
           key = file.read().strip()
     except:
       print("Error: API key is missing")
@@ -149,39 +149,52 @@ def weather_temp():
     temp = int(temp * (9/5) - 459.67)
     return temp
 
+# def getDailyWord():
+#     with open("wordbank.txt") as file:
+#         lines = file.readlines()
+#     for i in lines:
+#         i = i.strip()
+#     n = int(datetime.datetime.now().strftime("%S"))
+#     print(n)
+#     # word = ""
+#     # for i in n:
+#     #     word += i
+#     for num in range(0,len(lines)):
+#         if (n == 0):
+#             f = n
+#             print(n)
+#             fin = lines[num]
+#             num+=1
+#             n = int(datetime.datetime.now().strftime("%S"))
+#             if (n > f):
+#                 return lines[num]
+#             else:
+#                 num +=0
+#         else:
+#             word = lines[num]
+#             print(num)
+#             num+=1
+#             return lines[num]
+
 def getDailyWord():
-    with open("wordbank.txt") as file:
-        lines = file.readlines()
-    for i in lines:
-        i = i.strip()
+    print("Current working directory:", os.getcwd())
+    with open("app/wordbank.txt") as file:
+        lines = [line.strip() for line in file.readlines()]
+
+    if not lines:
+        return None
+
     n = int(datetime.datetime.now().strftime("%S"))
-    print(n)
-    # word = ""
-    # for i in n:
-    #     word += i
-    for num in range(0,len(lines)):
-        if (n == 0):
-            f = n
-            print(n)
-            fin = lines[num]
-            num+=1
-            n = int(datetime.datetime.now().strftime("%S"))
-            if (n > f):
-                return lines[num]
-            else:
-                num +=0
-        else:
-            word = lines[num]
-            print(num)
-            num+=1
-            return lines[num]
+    index = n % len(lines)
+
+    return lines[index]
 
 def get_my_ip():
     return jsonify({'ip': request.remote_addr})
 
 def dict_c_api():
     try:
-        with open("keys/key_merriam_webster_c.txt") as file:
+        with open("app/keys/key_merriam_webster_c.txt") as file:
             key = file.read().strip()
     except:
         return "Key error!!!!!! api doesnt work"
@@ -228,6 +241,8 @@ def dict_c_api():
 
 @app.route("/home")
 def NYT_api():
+    if 'username' not in session:
+        return redirect('/')
     createArticleDB()
     # key = None
     key = 'LSAtMXzQ7AkqoSHVXfNoHpX9JuGOBtUi'
