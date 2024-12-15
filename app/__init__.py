@@ -41,7 +41,7 @@ def login():
 
         if checkPassword(username, password):# if password is correct, given user exists
             session["username"] = username# adds user to session
-            return redirect("/home1")
+            return redirect("/home")
 
         else:# if password isnt correct
             flash("Invalid username/password", "error")
@@ -69,19 +69,42 @@ def register():
 
     return render_template("register.html")
 
-@app.route("/home", methods=["GET", "POST"])
-def homesweethome():
-    if "username" not in session:
-        return redirect("/login")
-    return render_template("home.html")
 
 @app.route("/wordle")
 def doWordle():
     return render_template("wordle.html")
 
-@app.route("/user/<int:user_id>")# viewing individual users
+@app.route('/user')
+def selfProfile():
+    if 'username' in session:
+        us =  session['username']
+        return redirect('/user/'+us)
+    else:
+        return redirect('/')
+
+@app.route("/user/<user_id>")# viewing individual users
 def profile(user_id):
-    return render_template('user.html')
+    if 'username' in session:
+        us = session['username']
+        userData = get_user_data(us)
+        if userData:
+            print("User data:", userData)
+        else:
+            print("User not founddd")
+    else:
+        return redirect ('/')
+    return render_template('user.html', cUser = us)
+
+def get_user_data(username):
+    db = sqlite3.connect(USER_FILE)
+    c = db.cursor()
+    c.execute("SELECT * FROM users WHERE username = ?", (username,))
+    userData = c.fetchone()
+    db.close()
+    return userData
+
+
+
 
 
 @app.route("/article/<int:post_id>")# viewing news posts
@@ -200,10 +223,11 @@ def dict_c_api():
                 except:
                     return "word not found"
 
-@app.route("/home1")
+@app.route("/home")
 def NYT_api():
     createArticleDB()
-    key = None
+    # key = None
+    key = 'LSAtMXzQ7AkqoSHVXfNoHpX9JuGOBtUi'
     if weather_type() == "Rain":
         weather_T = "rainy"
     elif weather_type() == "Snow":
