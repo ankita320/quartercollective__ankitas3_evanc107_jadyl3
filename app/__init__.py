@@ -79,8 +79,6 @@ def selfProfile():
     if 'username' in session:
         us =  session['username']
         return redirect('/user/'+us)
-    else:
-        return redirect('/')
 
 @app.route("/user/<user_id>")# viewing individual users
 def profile(user_id):
@@ -105,9 +103,6 @@ def get_user_data(username):
     return userData
 
 
-
-
-
 @app.route("/article/<int:post_id>")# viewing news posts
 def view_article(post_id):
     return render_template('post.html')
@@ -118,16 +113,23 @@ def removeSession():
     session.pop('username', None)
     return redirect("/")
 
+
+# def city():
+#     if 'username' in session:
+#         us = session['username']
+#         userData = get_user_data(us)
+#         return userData[2]
+
 def weather_type():
     try:
-        with open("app/keys/key_openweathermap.txt") as file:
+        with open("keys/key_openweathermap.txt") as file:
             key = file.read().strip()
     except FileNotFoundError:
         print("Error: API key file not found")
         return None
     ##conditional for key
     ##try catch/conditional if city dont exist or not spell right
-    city="london"
+    city= "london"
     url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
     json_d = url.read()
     w_info = json.loads(json_d.strip())
@@ -136,7 +138,7 @@ def weather_type():
 
 def weather_temp():
     try:
-        with open("app/keys/key_openweathermap.txt") as file:
+        with open("keys/key_openweathermap.txt") as file:
           key = file.read().strip()
     except:
       print("Error: API key is missing")
@@ -178,7 +180,7 @@ def weather_temp():
 
 def getDailyWord():
     print("Current working directory:", os.getcwd())
-    with open("app/wordbank.txt") as file:
+    with open("wordbank.txt") as file:
         lines = [line.strip() for line in file.readlines()]
 
     if not lines:
@@ -194,7 +196,7 @@ def get_my_ip():
 
 def dict_c_api():
     try:
-        with open("app/keys/key_merriam_webster_c.txt") as file:
+        with open("keys/key_merriam_webster_c.txt") as file:
             key = file.read().strip()
     except:
         return "Key error!!!!!! api doesnt work"
@@ -258,6 +260,7 @@ def NYT_api():
         weather_T = "hazy"
     w = ""
     tmp = 0
+    city= "london"
     try:
         with open("keys/key_NYT.txt") as file:
             key = file.read().strip()
@@ -394,7 +397,7 @@ def NYT_api():
     w = dict_c_api()
     tmp = weather_temp()
 
-    return render_template("home.html", main_articles=main_articles, weather_T=weather_T, tmp = tmp, w=w)
+    return render_template("home.html", main_articles=main_articles, weather_T=weather_T, tmp = tmp, w=w, city=city)
 
 
 
