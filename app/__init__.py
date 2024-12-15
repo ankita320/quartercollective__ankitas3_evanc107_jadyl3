@@ -8,7 +8,7 @@ import json
 import urllib.request
 import datetime
 
-from flask import Flask, render_template, redirect, session, request, flash
+from flask import Flask, render_template, redirect, session, request, flash, jsonify
 
 #custom module
 from sitedb import *
@@ -87,13 +87,14 @@ def profile(user_id):
     if 'username' in session:
         us = session['username']
         userData = get_user_data(us)
+
         if userData:
             print("User data:", userData)
         else:
             print("User not founddd")
     else:
         return redirect ('/')
-    return render_template('user.html', cUser = us)
+    return render_template('user.html', cUser = us, city = userData[2])
 
 def get_user_data(username):
     db = sqlite3.connect(USER_FILE)
@@ -175,6 +176,8 @@ def getDailyWord():
             num+=1
             return lines[num]
 
+def get_my_ip():
+    return jsonify({'ip': request.remote_addr})
 
 def dict_c_api():
     try:
