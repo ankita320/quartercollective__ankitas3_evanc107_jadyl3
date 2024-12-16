@@ -190,7 +190,7 @@ def getArticle(weathercondition, articlename):
 def getArticles(weathercondition):
     db = sqlite3.connect(USER_FILE)
     c = db.cursor()
-    c.execute("SELECT * FROM articles WHERE weathercondition=?", (weathercondition, ))
+    c.execute("SELECT * FROM articles WHERE weathercondition=? ORDER BY date", (weathercondition, ))
     return c.fetchall()
 
 # dev functions
@@ -264,20 +264,18 @@ def returnNote(username, articlename):
 def returnNotes(articlename):
     users = sqlite3.connect(USER_FILE)
     c = users.cursor()
-    c.execute("SELECT date, note FROM notes WHERE articlename=?", (articlename, ))
+    c.execute("SELECT username, date, note FROM notes WHERE articlename=?", (articlename, ))
     if c.fetchone() == None:
         return "No such notes"
     else:
         return list(c.fetchall())
 
-def returnNotesNum(articlename):
+def returnFavoriteArticles(username):
     users = sqlite3.connect(USER_FILE)
     c = users.cursor()
-    c.execute("SELECT date, note FROM notes WHERE articlename=?", (articlename, ))
-    if c.fetchone() == None:
-        return "No such note"
-    else:
-        return list(c.fetchall())
+    c.execute("SELECT articlename, date, note FROM notes WHERE username=?", (username, ))
+    return list(c.fetchall())
+
 # dev stuff
 def returnEntireNotesTable():
     db = sqlite3.connect(USER_FILE)
@@ -288,4 +286,3 @@ def deleteNotes():
     db = sqlite3.connect(USER_FILE)
     c = db.cursor()
     c.execute("DROP table notes")
-    

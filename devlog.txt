@@ -144,3 +144,7 @@ evanC -- 2024-12-14 20:21
 - fixed huge bug with try/catches and key reading 
 - made user profile page
 - started linking wordle page to py file and dict api
+
+jadyL -- 2024-12-16 10:46
+- finish up notes
+- try some of the html
