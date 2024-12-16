@@ -247,7 +247,7 @@ def NYT_api():
         return redirect('/')
     createArticleDB()
     # key = None
-    key = 'LSAtMXzQ7AkqoSHVXfNoHpX9JuGOBtUi'
+    #key = 'LSAtMXzQ7AkqoSHVXfNoHpX9JuGOBtUi'
     if weather_type() == "Rain":
         weather_T = "rainy"
     elif weather_type() == "Snow":
