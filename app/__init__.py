@@ -133,7 +133,7 @@ def weather_type():
     url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
     json_d = url.read()
     w_info = json.loads(json_d.strip())
-    weatherDescrip = w_info["weather"][0]["main"]
+    weatherDescrip = w_info["weather"][0]["main"] # gets the different weather conditions (rain, cloudy, hazy)
     return weatherDescrip
 
 def weather_temp():
@@ -147,8 +147,8 @@ def weather_temp():
     url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
     json_d = url.read()
     w_info = json.loads(json_d.strip())
-    temp = w_info["main"]["temp"]
-    temp = int(temp * (9/5) - 459.67)
+    temp = w_info["main"]["temp"] #gets the weather temo in kelvin
+    temp = int(temp * (9/5) - 459.67) # converts to farenheit
     return temp
 
 # def getDailyWord():
@@ -186,8 +186,8 @@ def getDailyWord():
     if not lines:
         return None
 
-    n = int(datetime.datetime.now().strftime("%S"))
-    index = n % len(lines)
+    n = int(datetime.datetime.now().strftime("%S")) #gets the day of the month (someone fix this so its the day of the month and not the current sefcond)
+    index = n % len(lines) #gets a new word by using the day of the month to get the word at that index number
 
     return lines[index]
 
@@ -195,11 +195,9 @@ def get_my_ip():
     return jsonify({'ip': request.remote_addr})
 
 def dict_c_api():
-    try:
-        with open("keys/key_merriam_webster_c.txt") as file:
+    with open("keys/key_merriam_webster_c.txt") as file:
             key = file.read().strip()
-    except:
-        return "Key error!!!!!! api doesnt work"
+     #tweaking
     word=getDailyWord().strip()
     print(word)
     url = urllib.request.urlopen(f"https://dictionaryapi.com/api/v3/references/collegiate/json/{word}?key={key}")
@@ -209,9 +207,9 @@ def dict_c_api():
     except:
         return {"error!!!!!!!!!!!!!1!!!"}
     try:
-        word_def = info[0]["def"][0]["sseq"][1][0][1]["dt"][0][1]
+        word_def = info[0]["def"][0]["sseq"][1][0][1]["dt"][0][1] #so there's a lot of different exeptions.. # gets the diffention of the word
         if "|" in word_def:
-            word_def = info[0]["def"][0]["sseq"][0][0][1]["dt"][0][1]
+            word_def = info[0]["def"][0]["sseq"][0][0][1]["dt"][0][1] #often the first def is the correct and often the second def is the correct, so if statements are accounting for those by checking which ones have special characters
         word_def = word_def.replace("sx", " ")
         word_def=word_def.replace("{bc}", " ")
         word_def=word_def.replace("{it}", " ")
@@ -224,6 +222,7 @@ def dict_c_api():
                 word_def = info[0]["def"][0]["sseq"][1][0][1]["dt"][0][1]
             word_def=word_def.replace("sx", " ")
             word_def=word_def.replace("{it}", " ")
+            word_def=word_def.replace("{bc}", " ")
             word_def=word_def.replace("{/it}", " ")
             return word_def
         except:
@@ -231,12 +230,17 @@ def dict_c_api():
                 word_def = info[0]["def"][0]["sseq"][0][0][1]["sense"]["dt"][0][1]
                 word_def=word_def.replace("sx", " ")
                 word_def=word_def.replace("{bc}", " ")
+                word_def=word_def.replace("{it}", " ")
+                word_def=word_def.replace("{/it}", " ")
+                
                 return word_def
             except:
                 try:
                     word_def = info[0]["shortdef"][0]
                     word_def=word_def.replace("sx", " ")
-                    word_def=word_def.replace("{bc}", " ")
+                    word_def=word_def.replace("{bc}", " ") #all of the replace variables replace the special characters not part of the definition with nothing so clearer text shows up
+                    word_def=word_def.replace("{it}", " ")
+                    word_def=word_def.replace("{/it}", " ")
                     return word_def
                 except:
                     return "word not found"
@@ -248,7 +252,7 @@ def NYT_api():
     createArticleDB()
     # key = None
     #key = 'LSAtMXzQ7AkqoSHVXfNoHpX9JuGOBtUi'
-    if weather_type() == "Rain":
+    if weather_type() == "Rain":  #gets the api content for weather type and creates variable to show on website
         weather_T = "rainy"
     elif weather_type() == "Snow":
         weather_T = "snowy"
@@ -265,7 +269,7 @@ def NYT_api():
     with open("keys/key_NYT.txt") as file:
         key = file.read().strip()
 
-    if len(getArticles("rain")) == 0:
+    if len(getArticles("rain")) == 0: #getting articles based on main weather condition (articles about rain to rain articles, sunny to sunny etc.)
         rain_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=rain&api-key={key}")
         rainArticles = []
         json_d = rain_url.read()
@@ -277,11 +281,11 @@ def NYT_api():
             for l in i["pub_date"]:
                 if l == "T":
                     break
-                pub_date += l
+                pub_date += l  #gets just the date of the article and no other information
             snippet = i["snippet"]
             hearts = 16
             web_url = i["web_url"]
-            createArticleEntry("rain", headline, pub_date, snippet, hearts, web_url)
+            createArticleEntry("rain", headline, pub_date, snippet, hearts, web_url) #creates request to api for the first time to store it in the variable so that every other time, it only uses the database and not the api w constant request
     else:
         rain_Articles = getArticles("rain")
 
