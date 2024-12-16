@@ -137,12 +137,9 @@ def weather_type():
     return weatherDescrip
 
 def weather_temp():
-    try:
-        with open("keys/key_openweathermap.txt") as file:
-          key = file.read().strip()
-    except:
-      print("Error: API key is missing")
-      return None
+    with open("keys/key_openweathermap.txt") as file:
+      key = file.read().strip() #ensures that there are no other characters that might be causing issues to code
+    
     city="london"
     url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
     json_d = url.read()
