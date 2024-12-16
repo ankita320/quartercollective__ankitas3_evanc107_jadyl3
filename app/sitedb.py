@@ -190,7 +190,7 @@ def getArticle(weathercondition, articlename):
 def getArticles(weathercondition):
     db = sqlite3.connect(USER_FILE)
     c = db.cursor()
-    c.execute("SELECT * FROM articles WHERE weathercondition=?", (weathercondition, ))
+    c.execute("SELECT * FROM articles WHERE weathercondition=? ORDER BY date", (weathercondition, ))
     return c.fetchall()
 
 # dev functions
