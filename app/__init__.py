@@ -222,6 +222,7 @@ def dict_c_api():
         word_def=word_def.replace("{bc}", " ")
         word_def=word_def.replace("{it}", " ")
         word_def=word_def.replace("{/it}", " ")
+        word_def=word_def.replace("{d_link|", " ")
         return word_def
     except:
         try:
@@ -232,6 +233,7 @@ def dict_c_api():
             word_def=word_def.replace("{it}", " ")
             word_def=word_def.replace("{bc}", " ")
             word_def=word_def.replace("{/it}", " ")
+            word_def=word_def.replace("{d_link|", " ")
             return word_def
         except:
             try:
@@ -240,6 +242,7 @@ def dict_c_api():
                 word_def=word_def.replace("{bc}", " ")
                 word_def=word_def.replace("{it}", " ")
                 word_def=word_def.replace("{/it}", " ")
+                word_def=word_def.replace("{d_link|", " ")
                 
                 return word_def
             except:
@@ -249,6 +252,7 @@ def dict_c_api():
                     word_def=word_def.replace("{bc}", " ") #all of the replace variables replace the special characters not part of the definition with nothing so clearer text shows up
                     word_def=word_def.replace("{it}", " ")
                     word_def=word_def.replace("{/it}", " ")
+                    word_def=word_def.replace("{d_link|", " ")
                     return word_def
                 except:
                     return "word not found"
