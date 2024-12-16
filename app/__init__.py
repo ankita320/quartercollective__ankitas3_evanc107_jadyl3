@@ -114,11 +114,15 @@ def removeSession():
     return redirect("/")
 
 
-# def city():
-#     if 'username' in session:
-#         us = session['username']
-#         userData = get_user_data(us)
-#         return userData[2]
+def city():
+    if 'username' in session:
+        us = session['username']
+        userData = get_user_data(us)
+        if userData:
+            print("User data:", userData)
+        else:
+            print("User not founddd")
+        return userData[2]
 
 def weather_type():
     with open("keys/key_openweathermap.txt") as file:
@@ -256,7 +260,8 @@ def NYT_api():
         weather_T = "hazy"
     w = ""
     tmp = 0
-    city= "london"
+    city= "city"
+
     with open("keys/key_NYT.txt") as file:
         key = file.read().strip()
 
