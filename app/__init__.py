@@ -148,6 +148,17 @@ def weather_temp():
     temp = int(temp * (9/5) - 459.67) # converts to farenheit
     return temp
 
+def weather_icon():
+    with open("keys/key_openweathermap.txt") as file:
+      key = file.read().strip() #ensures that there are no other characters that might be causing issues to code
+    
+    city="london"
+    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
+    json_d = url.read()
+    w_info = json.loads(json_d.strip())
+    icon = w_info["weather"][0]["icon"] #gets the weather temo in kelvin 
+    return icon
+
 # def getDailyWord():
 #     with open("wordbank.txt") as file:
 #         lines = file.readlines()
@@ -262,6 +273,7 @@ def NYT_api():
     w = ""
     tmp = 0
     city= "city"
+    icon = weather_icon()
 
     with open("keys/key_NYT.txt") as file:
         key = file.read().strip()
@@ -396,7 +408,7 @@ def NYT_api():
     w = dict_c_api()
     tmp = weather_temp()
 
-    return render_template("home.html", main_articles=main_articles, weather_T=weather_T, tmp = tmp, w=w, city=city)
+    return render_template("home.html", main_articles=main_articles, weather_T=weather_T, tmp = tmp, w=w, city=city, icon=icon)
 
 
 

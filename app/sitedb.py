@@ -172,11 +172,11 @@ def createArticleEntry(weathercondition, articlename, date, synopsis, hearts, ur
     c.execute("INSERT INTO articles (weathercondition, articlename, date, synopsis, hearts, url) VALUES (?, ?, ?, ?, ?, ?)", (weathercondition, articlename, date, synopsis, hearts, url))
     articles.commit()
 
-def updateHearts(weathercondition, articlename, change):
+def updateHearts(weathercondition, articlename):
     users = sqlite3.connect(USER_FILE)
     c = users.cursor()
     c.execute("SELECT hearts FROM articles WHERE articlename=? AND weathercondition=?", (articlename, weathercondition))
-    newHearts = c.fetchone()[0] + change
+    newHearts = c.fetchone()[0] + 1
     c.execute("UPDATE articles SET hearts=? WHERE articlename=? AND weathercondition=?", (newHearts, articlename, weathercondition))
     users.commit()
 
