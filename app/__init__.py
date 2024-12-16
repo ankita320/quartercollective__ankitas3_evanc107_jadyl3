@@ -121,12 +121,8 @@ def removeSession():
 #         return userData[2]
 
 def weather_type():
-    try:
-        with open("keys/key_openweathermap.txt") as file:
-            key = file.read().strip()
-    except FileNotFoundError:
-        print("Error: API key file not found")
-        return None
+    with open("keys/key_openweathermap.txt") as file:
+        key = file.read().strip()
     ##conditional for key
     ##try catch/conditional if city dont exist or not spell right
     city= "london"
@@ -261,12 +257,9 @@ def NYT_api():
     w = ""
     tmp = 0
     city= "london"
-    try:
-        with open("keys/key_NYT.txt") as file:
-            key = file.read().strip()
+    with open("keys/key_NYT.txt") as file:
+        key = file.read().strip()
 
-    except:
-      print("Error: API key is missing")
     if len(getArticles("rain")) == 0:
         rain_url = urllib.request.urlopen(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=rain&api-key={key}")
         rainArticles = []
