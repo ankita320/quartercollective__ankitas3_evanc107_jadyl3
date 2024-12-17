@@ -469,9 +469,9 @@ def NYT_api():
         main_articles = hazyArticles
     tmp = weather_temp()
     main_articles = createArticleCards(main_articles)
-    styling = getStyling(weather_type())
+    styling = getStyling(weather_T)
 
-    return render_template("home.html", main_articles=main_articles, weather_T=weather_T, tmp = tmp, w=w, city_r=city_r, icon=icon)
+    return render_template("home.html", main_articles=main_articles, weather_T=weather_T, tmp = tmp, w=w, city_r=city_r, icon=icon, styling=styling)
 
 
 

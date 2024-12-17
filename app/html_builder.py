@@ -46,12 +46,12 @@ def getStyling(weatherCondition):
     colors = getColors(weatherCondition)
     output = "<style>"
     output += "body {"
-    output += f"background-color: {colors[0]}"
-    output += f"color: {colors[1]}"
+    output += f"background-color: {colors[0]};"
+    output += f"color: {colors[1]};"
     output += "}"
     output += ".navbar {"
-    output += f"background-color: {colors[2]}"
-    output += f"color: {colors[3]}"
+    output += f"background-color: {colors[2]};"
+    output += f"color: {colors[3]};"
     output += "}"
     output += "</style>"
 
