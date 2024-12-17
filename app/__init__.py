@@ -120,17 +120,20 @@ def city():
         userData = get_user_data(us)
         if userData:
             print("User data:", userData)
+            return userData[2]
         else:
             print("User not founddd")
         return userData[2]
+    else:
+        return "not logged in"
 
 def weather_type():
     with open("keys/key_openweathermap.txt") as file:
         key = file.read().strip()
     ##conditional for key
     ##try catch/conditional if city dont exist or not spell right
-    city= "london"
-    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
+    city_r=city().strip()
+    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city_r}&appid={key}")
     json_d = url.read()
     w_info = json.loads(json_d.strip())
     weatherDescrip = w_info["weather"][0]["main"] # gets the different weather conditions (rain, cloudy, hazy)
@@ -140,8 +143,8 @@ def weather_temp():
     with open("keys/key_openweathermap.txt") as file:
       key = file.read().strip() #ensures that there are no other characters that might be causing issues to code
     
-    city="london"
-    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
+    city_r=city().strip()
+    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city_r}&appid={key}")
     json_d = url.read()
     w_info = json.loads(json_d.strip())
     temp = w_info["main"]["temp"] #gets the weather temo in kelvin
@@ -152,8 +155,8 @@ def weather_icon():
     with open("keys/key_openweathermap.txt") as file:
       key = file.read().strip() #ensures that there are no other characters that might be causing issues to code
     
-    city="london"
-    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
+    city_r=city().strip()
+    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city_r}&appid={key}")
     json_d = url.read()
     w_info = json.loads(json_d.strip())
     icon = w_info["weather"][0]["icon"] #gets the weather temo in kelvin 
@@ -276,7 +279,7 @@ def NYT_api():
         weather_T = "hazy"
     w = ""
     tmp = 0
-    city= "city"
+    city_r=city().strip()
     icon = weather_icon()
 
     with open("keys/key_NYT.txt") as file:
