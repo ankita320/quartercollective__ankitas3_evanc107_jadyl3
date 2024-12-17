@@ -7,6 +7,7 @@ import sqlite3
 import json
 import urllib.request
 import datetime
+import random
 
 from flask import Flask, render_template, redirect, session, request, flash, jsonify
 
@@ -23,6 +24,7 @@ app.secret_key = os.urandom(32)
 @app.route("/")# checks for session and sends user to appropriate spot
 def checkSession():
     createUsers()
+    # reset(getDailyWord().upper())
     if 'username' in session:
         return redirect("/home")
     return redirect("/login")
@@ -71,9 +73,52 @@ def register():
     return render_template("register.html")
 
 
-@app.route("/wordle")
-def doWordle():
-    return render_template("wordle.html", word = getDailyWord())
+@app.route("/wordle", methods=["GET", "POST"])
+def wordle():
+    global board, juvieBoard, boardPos, currGuess, guessPos, answer
+    if 'username' not in session:
+        return redirect("/home")
+
+    if 'board' not in session:
+        print('reset!!')
+        session['board'] = [['_' for _ in range(letterPerWord)] for _ in range(guessesPerGame)]
+        session['juvieBoard'] = session['board'].copy()
+        session['boardPos'] = 0
+        session['currGuess'] = ['_' for _ in range(letterPerWord)]
+        session['guessPos'] = 0
+        session['answer'] = getDailyWord().upper()
+
+    else:
+        session['board'] = board
+        session['juvieBoard'] = juvieBoard
+        session['boardPos'] = boardPos
+        session['currGuess'] = currGuess
+        session['guessPos'] = guessPos
+        session['answer'] = getDailyWord().upper()
+
+    board = session['board']
+    print('session: ', board)
+    juvieBoard = session['juvieBoard']
+    boardPos = session['boardPos']
+    currGuess = session['currGuess']
+    guessPos = session['guessPos']
+    answer = getDailyWord().upper()
+
+    if request.method == "POST":
+        user_guess = request.form.get("guess").upper()
+
+        board[boardPos] = list(user_guess)
+        boardPos+=1
+        addGuess(user_guess)
+        enterGuess()
+        juvieBoard = policeGuess()
+
+        print(board)
+        print(juvieBoard)
+        if user_guess == answer:
+            return render_template("wordle.html", boardd = board, juvie_board = juvieBoard, win = True, answer = getDailyWord().upper(), lpw = letterPerWord, gpg = guessesPerGame, bp = boardPos)
+
+    return render_template("wordle.html", boardd = board, juvie_board = juvieBoard, win = False, answer = getDailyWord().upper(), lpw = letterPerWord, gpg = guessesPerGame, bp = boardPos)
 
 @app.route('/user')
 def selfProfile():
@@ -111,6 +156,12 @@ def view_article(post_id):
 
 @app.route("/logout")
 def removeSession():
+    session.pop('board', None)
+    session.pop('juvieBoard', None)
+    session.pop('boardPos', None)
+    session.pop('currGuess', None)
+    session.pop('guessPos', None)
+    session.pop('answer', None)
     session.pop('username', None)
     return redirect("/")
 
@@ -121,17 +172,20 @@ def city():
         userData = get_user_data(us)
         if userData:
             print("User data:", userData)
+            return userData[2]
         else:
             print("User not founddd")
         return userData[2]
+    else:
+        return "not logged in"
 
 def weather_type():
     with open("keys/key_openweathermap.txt") as file:
         key = file.read().strip()
     ##conditional for key
     ##try catch/conditional if city dont exist or not spell right
-    city= "london"
-    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
+    city_r=city().strip()
+    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city_r}&appid={key}")
     json_d = url.read()
     w_info = json.loads(json_d.strip())
     weatherDescrip = w_info["weather"][0]["main"] # gets the different weather conditions (rain, cloudy, hazy)
@@ -139,10 +193,9 @@ def weather_type():
 
 def weather_temp():
     with open("keys/key_openweathermap.txt") as file:
-      key = file.read().strip() #ensures that there are no other characters that might be causing issues to code
-    
-    city="london"
-    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
+      key = file.read().strip() #ensures that there are no other characters that might be causing issues to code    
+    city_r=city().strip()
+    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city_r}&appid={key}")
     json_d = url.read()
     w_info = json.loads(json_d.strip())
     temp = w_info["main"]["temp"] #gets the weather temo in kelvin
@@ -152,12 +205,11 @@ def weather_temp():
 def weather_icon():
     with open("keys/key_openweathermap.txt") as file:
       key = file.read().strip() #ensures that there are no other characters that might be causing issues to code
-    
-    city="london"
-    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
+    city_r=city().strip()
+    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city_r}&appid={key}")
     json_d = url.read()
     w_info = json.loads(json_d.strip())
-    icon = w_info["weather"][0]["icon"] #gets the weather temo in kelvin 
+    icon = w_info["weather"][0]["icon"] #gets the weather temo in kelvin
     return icon
 
 # def getDailyWord():
@@ -188,17 +240,18 @@ def weather_icon():
 #             return lines[num]
 
 def getDailyWord():
-    print("Current working directory:", os.getcwd())
     with open("wordbank.txt") as file:
         lines = [line.strip() for line in file.readlines()]
 
     if not lines:
         return None
 
-    n = int(datetime.datetime.now().strftime("%S")) #gets the day of the month (someone fix this so its the day of the month and not the current sefcond)
-    index = n % len(lines) #gets a new word by using the day of the month to get the word at that index number
+    # n = int(datetime.datetime.now().strftime("%S")) #gets the day of the month (someone fix this so its the day of the month and not the current sefcond)
+    # index = n % len(lines) #gets a new word by using the day of the month to get the word at that index number
 
-    return lines[index]
+
+    random.seed(datetime.datetime.now().strftime("%m%d%Y"))
+    return lines[random.randint(0, 999)]
 
 def get_my_ip():
     return jsonify({'ip': request.remote_addr})
@@ -208,7 +261,7 @@ def dict_c_api():
             key = file.read().strip()
      #tweaking
     word=getDailyWord().strip()
-    print(word)
+    # print(word)
     url = urllib.request.urlopen(f"https://dictionaryapi.com/api/v3/references/collegiate/json/{word}?key={key}")
     json_d = url.read()
     try:
@@ -244,7 +297,7 @@ def dict_c_api():
                 word_def=word_def.replace("{it}", " ")
                 word_def=word_def.replace("{/it}", " ")
                 word_def=word_def.replace("{d_link|", " ")
-                
+
                 return word_def
             except:
                 try:
@@ -277,7 +330,7 @@ def NYT_api():
         weather_T = "hazy"
     w = ""
     tmp = 0
-    city= "city"
+    city_r=city().strip()
     icon = weather_icon()
 
     with open("keys/key_NYT.txt") as file:
