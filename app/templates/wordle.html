@@ -1,17 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>wordle+1</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wordle+1</title>
+  <style>
+    /* body {
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f8ff;
+      color: #333;
+    } */
+    .boardd {
+      display: grid;
+      grid-template-columns: repeat(6, 40px);
+      gap: 10px;
+    }
+    .cell {
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      border: 2px solid #ddd;
+      font-size: 20px;
+    }
+    .cell.c { background-color: #6aaa64; color: white; }
+    .cell.m { background-color: #c9b458; color: white; }
+    .cell.i { background-color: #787c7e; color: white; }
+  </style>
 </head>
 <body>
-<!-- heading -->
-  <div>
-    <a href = "/home"><h3>QuarterCollective's</h3></a>
-    <h1>wordle+1 !!!</h1>
-    <p>{{word}}</p>
+  <a href = "/home"><h3>QuarterCollective's</h3></a>
+  <h1>Wordle+1</h1>
+
+  <div class="boardd">
+    {% for row in range(gpg) %}
+      {% for col in range(lpw) %}
+        <div class="cell {{ juvie_board[row][col] if boardd[row][col] != '_' else '' }}">
+          {{ boardd[row][col] }}
+        </div>
+      {% endfor %}
+    {% endfor %}
   </div>
-
-
+{% if not win %}
+  <form method="POST" style="margin-top: 20px;">
+    <input type="text" name="guess" maxlength="6" placeholder="Enter your guess" required>
+    <button type="submit">Submit</button>
+  </form>
+  {% elif win%}
+  <h1></h1>
+{% endif %}
+  {% if win %}
+    <h2>Congratulations! The word was {{ answer }}.</h2>
+  {% elif bp == 7 and not win %}
+    <h2>Game Over! The word was {{ answer }}.</h2>
+  {% endif %}
 </body>
 </html>

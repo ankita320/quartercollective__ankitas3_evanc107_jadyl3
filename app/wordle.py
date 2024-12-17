@@ -1,3 +1,5 @@
+from __init__ import *
+
 # settings
 letterPerWord = 6
 guessesPerGame = 7
@@ -13,7 +15,7 @@ boardPos = 0
 currGuess = ['_' for x in range(letterPerWord)]
 guessPos = 0
 
-answer = 'SAMPLE'
+answer = getDailyWord().upper()
 
 def display():
     print('WORDLE', '\nanswer =', answer)
@@ -69,49 +71,93 @@ def delGuess():
 
 def enterGuess():
     global boardPos, currGuess, guessPos
+    # print(currGuess)
     if(guessPos == letterPerWord) and (boardPos<guessesPerGame):
         board[boardPos] = currGuess
+        print('enterguess',board )
         boardPos = boardPos+1
         currGuess = ['_' for x in range(letterPerWord)]
         guessPos = 0
-    policeGuess()
+
+#
+# def policeGuess():
+#     comparedRow = boardPos-1
+#
+#     correctness = 0
+#
+#     an = []
+#     for x in range(len(answer)):
+#         an.append(answer[x])
+#
+#     comp = []
+#     for y in range(len(board[comparedRow])):
+#         comp.append(board[comparedRow][y])
+#
+#     #guilty until proven innocent
+#     juvieBoard[comparedRow] = ['i' for x in range(letterPerWord)]
+#
+#     #do the green tiles
+#     for y in range(len(comp)):
+#         if an[y] == comp[y]:
+#             juvieBoard[comparedRow][y] = 'c'
+#             an[y] = '0'
+#             comp[y] = '1'
+#             correctness += 1
+#     #do the yellow tiles
+#     for y in range(len(comp)):
+#         if comp[y] in an:
+#             juvieBoard[comparedRow][y] = 'm'
+#             found = False
+#             for i in range(len(an)):
+#                 if found == False and comp[y] == an[i]:
+#                     an[i] = '2'
+#                     found = True
+#             comp[y] = '3'
+#
+#     if correctness == letterPerWord:
+#         win()
+
 
 def policeGuess():
-    comparedRow = boardPos-1
+    global boardPos, juvieBoard
+    compared_row = boardPos - 1
 
-    correctness = 0
+    an = list(answer)
+    comp = list(board[compared_row])
+    juvieBoard[compared_row] = ["i"] * letterPerWord
 
-    an = []
-    for x in range(len(answer)):
-        an.append(answer[x])
-
-    comp = []
-    for y in range(len(board[comparedRow])):
-        comp.append(board[comparedRow][y])
-
-    #guilty until proven innocent
-    juvieBoard[comparedRow] = ['i' for x in range(letterPerWord)]
-
-    #do the green tiles
     for y in range(len(comp)):
         if an[y] == comp[y]:
-            juvieBoard[comparedRow][y] = 'c'
-            an[y] = '0'
-            comp[y] = '1'
-            correctness += 1
-    #do the yellow tiles
-    for y in range(len(comp)):
-        if comp[y] in an:
-            juvieBoard[comparedRow][y] = 'm'
-            found = False
-            for i in range(len(an)):
-                if found == False and comp[y] == an[i]:
-                    an[i] = '2'
-                    found = True
-            comp[y] = '3'
+            juvieBoard[compared_row][y] = "c"
+            an[y] = None
+            comp[y] = None
 
-    if correctness == letterPerWord:
-        win()
+    for y in range(len(comp)):
+        if comp[y] and comp[y] in an:
+            juvieBoard[compared_row][y] = "m"
+            an[an.index(comp[y])] = None
+
+    print("Juvie Board State:")
+    for row in juvieBoard:
+        print(row)
+    print('pguess', board)
+    return juvieBoard
+    # print('boardpos: ',boardPos)
+    # print(answer)
+
+
+# def reset(word):
+#     global board, juvieBoard, boardPos, currGuess, guessPos, answer
+#     print('AAAAAAAAAHHH')
+#     board = [['_' for x in range(letterPerWord)] for y in range(guessesPerGame)]# x = #columns, y = #rows
+#     print(board)
+#
+#     juvieBoard = board.copy()
+#     boardPos = 0
+#
+#     currGuess = ['_' for x in range(letterPerWord)]
+#     guessPos = 0
+#     answer = word
 
 def win():
     print('yip yip hooray')
