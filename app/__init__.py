@@ -184,6 +184,7 @@ def weather_type():
     ##conditional for key
     ##try catch/conditional if city dont exist or not spell right
     city_r=city().strip()
+    print(city_r)
     url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city_r}&appid={key}")
     json_d = url.read()
     w_info = json.loads(json_d.strip())
@@ -465,7 +466,7 @@ def NYT_api():
     w = dict_c_api()
     tmp = weather_temp()
 
-    return render_template("home.html", main_articles=main_articles, weather_T=weather_T, tmp = tmp, w=w, city=city, icon=icon)
+    return render_template("home.html", main_articles=main_articles, weather_T=weather_T, tmp = tmp, w=w, city_r=city_r, icon=icon)
 
 
 
