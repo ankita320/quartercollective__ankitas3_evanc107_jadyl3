@@ -119,9 +119,9 @@ def wordle():
         print(board)
         print(juvieBoard)
         if user_guess == answer:
-            return render_template("wordle.html", boardd = board, juvie_board = juvieBoard, win = True, answer = getDailyWord().upper(), lpw = letterPerWord, gpg = guessesPerGame, bp = boardPos, styling=styling)
+            return render_template("wordle.html", boardd = board, juvie_board = juvieBoard, win = True, answer = getDailyWord().upper(), lpw = letterPerWord, gpg = guessesPerGame, bp = boardPos, styling=styling, w=w)
 
-    return render_template("wordle.html", boardd = board, juvie_board = juvieBoard, win = False, answer = getDailyWord().upper(), lpw = letterPerWord, gpg = guessesPerGame, bp = boardPos, styling=styling)
+    return render_template("wordle.html", boardd = board, juvie_board = juvieBoard, win = False, answer = getDailyWord().upper(), lpw = letterPerWord, gpg = guessesPerGame, bp = boardPos, styling=styling, w=w)
 
 @app.route('/user')
 def selfProfile():

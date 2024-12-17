@@ -76,7 +76,7 @@
   <h1></h1>
 {% endif %}
   {% if win %}
-    <h2>Congratulations! The word was {{ answer }}. The definition of this word is: {{w}}. Wow, now you know a cool little fact!</h2>
+    <h2>Congratulations! The word was {{ answer }}. The definition of this word is:</h2><h2 style="color: black">{{w}}</h2><h2> Wow, now you know a cool little fact!</h2>
   {% elif bp == 7 and not win %}
     <h2>Game Over! The word was {{ answer }}.</h2>
   {% endif %}
