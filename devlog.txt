@@ -164,3 +164,9 @@ jadyL -- 2024-12-17 00:43
 - overhaul articles
 - get css working for at least the home
 - get css working everywhere
+
+ankitaS -- 2024-12-17
+- got city function to fully work (w/o try catch)
+- debugged home so it fully works
+- added final touches
+- made dummy acc
