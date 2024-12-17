@@ -153,3 +153,9 @@ ankitaS -- 2024-12-15 17:43
 jadyL -- 2024-12-16 10:46
 - finish up notes
 - try some of the html
+
+evanC -- 2024-12-16 20:24
+- /wordle
+    - custom wordle styling
+    - integrated wordle python to html template with no js
+    - wordle works based on session
