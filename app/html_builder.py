@@ -4,7 +4,7 @@
 def createArticleCards(articles):
     output = ""
     for article in articles:
-        output += '''<div class="card" style="width: 18rem;">'''
+        output += '''<div class="card" style="width: 18rem; display: inline-block;">'''
         output += '''<div class="card-body">'''
         output += f'''<a style="" href="{article[5]}"><h5>{article[1]}</h5></a>'''
         output += f'''<p><i>{article[2]}</i></p>'''
@@ -48,6 +48,8 @@ def getStyling(weatherCondition):
     output += "body {"
     output += f"background-color: {colors[0]};"
     output += f"color: {colors[1]};"
+    output += '''font-family: "Berkshire Swash", serif;'''
+    output += "padding: 3%;"
     output += "}"
     output += ".navbar {"
     output += f"background-color: {colors[2]};"

@@ -11,21 +11,10 @@
   </head>
   
   <body>
-    <!-- <div class = navbar>
-      <nav style="display: inline-flex;">
-        <ul class="nav navbar-nav">
-          <li><a href="#">Articles</a></li>
-          <li><a href="#">QW+</a></li>
-          <li><a href="/wordle">wordle</a></li>
-        </ul>
-      </nav>
-    </div> -->
+
+    <a href="/"><h1 style="text-align: center;">Quarter Weather</h1></a>
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
@@ -41,9 +30,11 @@
         </div>
       </div>
     </nav>
-    <h1>Quarter Weather</h1>
+  <br>
   <h3>In {{city_r}}, it's {{weather_T}} at {{tmp}} F! <img src="https://openweathermap.org/img/wn/{{icon}}@2x.png"></h3>
-  <div class="d-inline-flex gap-1">
+  
+  <h2> Articles: </h2>
+  <div class="d-inline-flex gap-2 d-flex flex-wrap" style="overflow-x: auto;">
     {{main_articles | safe}}
   </div>
 

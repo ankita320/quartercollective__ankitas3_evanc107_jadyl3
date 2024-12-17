@@ -104,6 +104,8 @@ def wordle():
     guessPos = session['guessPos']
     answer = getDailyWord().upper()
 
+    styling = getStyling(weather_tt())
+
     if request.method == "POST":
         user_guess = request.form.get("guess").upper()
 
@@ -116,9 +118,9 @@ def wordle():
         print(board)
         print(juvieBoard)
         if user_guess == answer:
-            return render_template("wordle.html", boardd = board, juvie_board = juvieBoard, win = True, answer = getDailyWord().upper(), lpw = letterPerWord, gpg = guessesPerGame, bp = boardPos)
+            return render_template("wordle.html", boardd = board, juvie_board = juvieBoard, win = True, answer = getDailyWord().upper(), lpw = letterPerWord, gpg = guessesPerGame, bp = boardPos, styling=styling)
 
-    return render_template("wordle.html", boardd = board, juvie_board = juvieBoard, win = False, answer = getDailyWord().upper(), lpw = letterPerWord, gpg = guessesPerGame, bp = boardPos)
+    return render_template("wordle.html", boardd = board, juvie_board = juvieBoard, win = False, answer = getDailyWord().upper(), lpw = letterPerWord, gpg = guessesPerGame, bp = boardPos, styling=styling)
 
 @app.route('/user')
 def selfProfile():
@@ -138,7 +140,9 @@ def profile(user_id):
             print("User not founddd")
     else:
         return redirect ('/')
-    return render_template('user.html', cUser = us, city = userData[2])
+    
+    styling = getStyling(weather_tt())
+    return render_template('user.html', cUser = us, city = userData[2], styling=styling)
 
 def get_user_data(username):
     db = sqlite3.connect(USER_FILE)
@@ -191,6 +195,19 @@ def weather_type():
     w_info = json.loads(json_d.strip())
     weatherDescrip = w_info["weather"][0]["main"] # gets the different weather conditions (rain, cloudy, hazy)
     return weatherDescrip
+
+def weather_tt():
+    if weather_type() == "Rain":  #gets the api content for weather type and creates variable to show on website
+        weather_tt = "rainy"
+    elif weather_type() == "Snow":
+        weather_tt = "snowy"
+    elif weather_type() == "Clear":
+        weather_tt = "sunny"
+    elif weather_type() == "Clouds":
+        weather_tt = "cloudy"
+    else:
+        weather_tt = "hazy"
+    return weather_tt
 
 def weather_temp():
     with open("keys/key_openweathermap.txt") as file:

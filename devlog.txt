@@ -159,3 +159,8 @@ evanC -- 2024-12-16 20:24
     - custom wordle styling
     - integrated wordle python to html template with no js
     - wordle works based on session
+
+jadyL -- 2024-12-17 00:43
+- overhaul articles
+- get css working for at least the home
+- get css working everywhere
