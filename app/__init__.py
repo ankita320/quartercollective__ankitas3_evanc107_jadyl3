@@ -14,6 +14,7 @@ from flask import Flask, render_template, redirect, session, request, flash, jso
 #custom module
 from sitedb import *
 from wordle import *
+from html_builder import *
 
 
 # flask App
@@ -465,8 +466,11 @@ def NYT_api():
         main_articles = hazyArticles
     w = dict_c_api()
     tmp = weather_temp()
+    main_articles = createArticleCards(main_articles)
+    styling = getStyling(weather_type())
 
     return render_template("home.html", main_articles=main_articles, weather_T=weather_T, tmp = tmp, w=w, city_r=city_r, icon=icon)
+
 
 
 

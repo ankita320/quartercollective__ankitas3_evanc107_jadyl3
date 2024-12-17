@@ -143,8 +143,19 @@ ankitaS -- 2024-12-12 20:32
 evanC -- 2024-12-14 20:21
 - fixed huge bug with try/catches and key reading 
 - made user profile page
-- started linking wordle page to py file and dict api
+- started linking wordle page to py file and dict API
+
+ankitaS -- 2024-12-15 17:43
+- fixed pulling content from dictionary api and handled many structural exceptions with formatting of definitions
+- started debugging getCity() function
+- started css for login page & fonts
 
 jadyL -- 2024-12-16 10:46
 - finish up notes
 - try some of the html
+
+evanC -- 2024-12-16 20:24
+- /wordle
+    - custom wordle styling
+    - integrated wordle python to html template with no js
+    - wordle works based on session
