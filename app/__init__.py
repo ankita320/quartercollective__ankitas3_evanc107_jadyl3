@@ -192,16 +192,9 @@ def weather_type():
 
 def weather_temp():
     with open("keys/key_openweathermap.txt") as file:
-      key = file.read().strip() #ensures that there are no other characters that might be causing issues to code
-<<<<<<< HEAD
-    
+      key = file.read().strip() #ensures that there are no other characters that might be causing issues to code    
     city_r=city().strip()
     url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city_r}&appid={key}")
-=======
-
-    city="london"
-    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
->>>>>>> eccdf07a1623a90ed10762c624767cf622bdf656
     json_d = url.read()
     w_info = json.loads(json_d.strip())
     temp = w_info["main"]["temp"] #gets the weather temo in kelvin
@@ -211,15 +204,8 @@ def weather_temp():
 def weather_icon():
     with open("keys/key_openweathermap.txt") as file:
       key = file.read().strip() #ensures that there are no other characters that might be causing issues to code
-<<<<<<< HEAD
-    
     city_r=city().strip()
     url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city_r}&appid={key}")
-=======
-
-    city="london"
-    url = urllib.request.urlopen(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}")
->>>>>>> eccdf07a1623a90ed10762c624767cf622bdf656
     json_d = url.read()
     w_info = json.loads(json_d.strip())
     icon = w_info["weather"][0]["icon"] #gets the weather temo in kelvin
