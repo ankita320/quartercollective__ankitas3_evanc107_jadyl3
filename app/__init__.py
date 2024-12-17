@@ -75,6 +75,7 @@ def register():
 
 @app.route("/wordle", methods=["GET", "POST"])
 def wordle():
+    w = dict_c_api()
     global board, juvieBoard, boardPos, currGuess, guessPos, answer
     if 'username' not in session:
         return redirect("/home")
@@ -116,9 +117,9 @@ def wordle():
         print(board)
         print(juvieBoard)
         if user_guess == answer:
-            return render_template("wordle.html", boardd = board, juvie_board = juvieBoard, win = True, answer = getDailyWord().upper(), lpw = letterPerWord, gpg = guessesPerGame, bp = boardPos)
+            return render_template("wordle.html", boardd = board, juvie_board = juvieBoard, win = True, answer = getDailyWord().upper(), lpw = letterPerWord, gpg = guessesPerGame, bp = boardPos, w=w)
 
-    return render_template("wordle.html", boardd = board, juvie_board = juvieBoard, win = False, answer = getDailyWord().upper(), lpw = letterPerWord, gpg = guessesPerGame, bp = boardPos)
+    return render_template("wordle.html", boardd = board, juvie_board = juvieBoard, win = False, answer = getDailyWord().upper(), lpw = letterPerWord, gpg = guessesPerGame, bp = boardPos, w=w)
 
 @app.route('/user')
 def selfProfile():
@@ -312,6 +313,8 @@ def dict_c_api():
                 except:
                     return "word not found"
 
+
+
 @app.route("/home")
 def NYT_api():
     if 'username' not in session:
@@ -464,7 +467,6 @@ def NYT_api():
         main_articles = cloudyArticles
     else:
         main_articles = hazyArticles
-    w = dict_c_api()
     tmp = weather_temp()
     main_articles = createArticleCards(main_articles)
     styling = getStyling(weather_type())

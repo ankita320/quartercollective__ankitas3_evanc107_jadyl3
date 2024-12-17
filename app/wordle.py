@@ -17,6 +17,7 @@ guessPos = 0
 
 answer = getDailyWord().upper()
 
+
 def display():
     print('WORDLE', '\nanswer =', answer)
     for x in range(len(board)):
