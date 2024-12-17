@@ -75,6 +75,7 @@ def register():
 
 @app.route("/wordle", methods=["GET", "POST"])
 def wordle():
+    w = dict_c_api()
     global board, juvieBoard, boardPos, currGuess, guessPos, answer
     if 'username' not in session:
         return redirect("/home")
@@ -329,6 +330,8 @@ def dict_c_api():
                 except:
                     return "word not found"
 
+
+
 @app.route("/home")
 def NYT_api():
     if 'username' not in session:
@@ -481,7 +484,6 @@ def NYT_api():
         main_articles = cloudyArticles
     else:
         main_articles = hazyArticles
-    w = dict_c_api()
     tmp = weather_temp()
     main_articles = createArticleCards(main_articles)
     styling = getStyling(weather_T)
